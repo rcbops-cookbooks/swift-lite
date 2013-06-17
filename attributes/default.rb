@@ -8,9 +8,7 @@ default["swift"]["auto_rebuild_rings"] = false                              # cl
 
 default["swift"]["service_tenant_name"] = "service"                         # node_attribute
 default["swift"]["service_user"] = "swift"                                  # node_attribute
-default["swift"]["dispersion_service_user"] = "dispersion"                  # node_attribute
 # Replacing with OpenSSL::Password in recipes/proxy-server.rb
-#default["swift"]["service_pass"] = "tYPvpd5F"
 default["swift"]["service_role"] = "admin"                                  # node_attribute
 
 # should we use swift-informant?
@@ -20,42 +18,20 @@ default["swift"]["service_role"] = "admin"                                  # no
 default["swift"]["use_informant"] = false                                   # cluster_attribute
 
 default["swift"]["services"]["proxy"]["scheme"] = "http"                    # node_attribute
-default["swift"]["services"]["proxy"]["network"] = "swift-public"           # node_attribute (inherited from cluster?)
+default["swift"]["services"]["proxy"]["network"] = "swift-proxy"           # node_attribute (inherited from cluster?)
 default["swift"]["services"]["proxy"]["port"] = 8080                        # node_attribute (inherited from cluster?)
 default["swift"]["services"]["proxy"]["path"] = "/v1/AUTH_%(tenant_id)s"                       # node_attribute
 
-default["swift"]["services"]["object-server"]["network"] = "swift"          # node_attribute (inherited from cluster?)
+default["swift"]["services"]["object-server"]["network"] = "swift-storage"          # node_attribute (inherited from cluster?)
 default["swift"]["services"]["object-server"]["port"] = 6000                # node_attribute (inherited from cluster?)
 
-default["swift"]["services"]["container-server"]["network"] = "swift"       # node_attribute (inherited from cluster?)
+default["swift"]["services"]["container-server"]["network"] = "swift-storage"       # node_attribute (inherited from cluster?)
 default["swift"]["services"]["container-server"]["port"] = 6001             # node_attribute (inherited from cluster?)
 
-default["swift"]["services"]["account-server"]["network"] = "swift"         # node_attribute (inherited from cluster?)
+default["swift"]["services"]["account-server"]["network"] = "swift-storage"         # node_attribute (inherited from cluster?)
 default["swift"]["services"]["account-server"]["port"] = 6002               # node_attribute (inherited from cluster?)
 
-default["swift"]["services"]["ring-repo"]["network"] = "swift"              # node_attribute (inherited from cluster?)
-default["swift"]["services"]["ring-repo"]["port"] = 9418                    # node_attribute (inherited from cluster?)
-default["swift"]["services"]["ring-repo"]["scheme"] = "git"                 # node_attribute
-default["swift"]["services"]["ring-repo"]["path"] = "/rings"                # node_attribute
-
-# disk_test_filter is an array of predicates to test against disks to
-# determine if a disk should be formatted and configured for swift.
-# Each predicate is evaluated in turn, and a false from the predicate
-# will result in the disk not being considered as a candidate for
-# formatting.
-default["swift"]["disk_test_filter"] = [ "candidate =~ /sd[^a]/ or candidate =~ /hd[^a]/ or candidate =~ /vd[^a]/ or candidate =~ /xvd[^a]/",
-                                         "File.exist?('/dev/' + candidate)",
-                                         "not system('/sbin/parted /dev/' + candidate + ' -s print | grep linux-swap')",
-                                         "info['removable'] == 0.to_s"
-                                       ]                                    # cluster_attribute
-
-# some attributes to control where network interfaces are laid down
-
-# where LB public interfaces get dropped.  Or should these get mapped by convention?
-default["osops_networks"]["mapping"]["swift-lb"] = "public"                 # cluster_attribute
-default["osops_networks"]["mapping"]["swift-private"] = "swift"             # cluster_attribute
-default["osops_networks"]["mapping"]["swift-public"] = "public"             # cluster_attribute
-
+default["swift"]["services"]["ring-repo"]["network"] = "swift-storage"              # node_attribute (inherited from cluster?)
 
 # attributes for monitoring
 

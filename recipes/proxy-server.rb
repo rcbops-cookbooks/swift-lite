@@ -27,7 +27,7 @@ else
   if node.run_list.expand(node.chef_environment).recipes.include?("swift-lite::setup")
     Chef::Log.info("I ran the swift::setup so I will use my own swift passwords")
   else
-    setup = search(:node, "chef_environment:#{node.chef_environment} AND recipe:swift-lite\:\:setup")
+    setup = search(:node, "chef_environment:#{node.chef_environment} AND roles:swift-setup")
     if setup.length == 0
       Chef::Application.fatal! "You must have run the swift-lite::setup recipe (on this or another node) before running the swift::proxy recipe on this node"
     elsif setup.length == 1
