@@ -155,6 +155,11 @@ This obviously depends on a previously deployed keystone server using
 the rcbops cookbooks.  Consult the keystone README.md for details on
 deploying keystone with that cookbook.
 
+This also wants relatively new swift.  You can use the newest
+backported versions of swift by adding recipe[osops-utils::packages],
+or by adding a package repo to point to newer swift before running any
+of the proxy or server recipes.
+
 
 License and Author
 ==================
