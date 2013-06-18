@@ -24,7 +24,7 @@ platform_options = node["swift"]["platform"]
 
 platform_options["account_packages"].each.each do |pkg|
   package pkg do
-    action platform_options["package_action"].to_sym
+    action node["swift"]["package_action"].to_sym
     options platform_options["override_options"] # retain configs
   end
 end

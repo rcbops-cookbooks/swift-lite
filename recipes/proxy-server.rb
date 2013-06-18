@@ -44,18 +44,20 @@ platform_options = node["swift"]["platform"]
 # install platform-specific packages
 platform_options["proxy_packages"].each do |pkg|
   package pkg do
-    action platform_options["package_action"].to_sym
+    action node["swift"]["package_action"].to_sym
     options platform_options["override_options"]
   end
 end
 
 package "python-swift-informant" do
-  action platform_options["package_action"].to_sym
+  action node["swift"]["package_action"].to_sym
+  options platform_options["override_options"]
   only_if { node["swift"]["use_informant"] }
 end
 
 package "python-keystone" do
-  action platform_options["package_action"].to_sym
+  action node["swift"]["package_action"].to_sym
+  options platform_options["override_options"]
 end
 
 directory "/var/cache/swift" do
