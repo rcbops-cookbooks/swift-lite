@@ -20,11 +20,9 @@ include_recipe "osops-utils"
 
 platform_options = node["swift"]["platform"]
 
-git_service = get_access_endpoint("swift-management-server","swift","ring-repo")
-
 platform_options["swift_packages"].each do |pkg|
   package pkg do
-    action :install
+    action platform_options["package_action"].to_sym
   end
 end
 
@@ -50,6 +48,16 @@ user "swift" do
   shell "/bin/bash"
   action :modify
   only_if "/usr/bin/id swift"
+end
+
+template "/etc/sudoers.d/swift" do
+  owner "root"
+  group "root"
+  mode "0440"
+  variables({
+              :node => node
+            })
+  action :nothing
 end
 
 keystone = get_settings_by_role("keystone-setup", "keystone")

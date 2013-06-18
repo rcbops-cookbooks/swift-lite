@@ -42,6 +42,6 @@ end
 
 dsh_group "swift-storage" do
   user "swift"
-  network "swift"
+  network "swift-storage"
   notifies :create, "template[/etc/sudoers.d/swift]", :immediately
 end

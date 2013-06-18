@@ -25,7 +25,7 @@ platform_options = node["swift"]["platform"]
 
 platform_options["container_packages"].each do |pkg|
   package pkg do
-    action :install
+    action platform_options["package_action"].to_sym
     options platform_options["override_options"]
   end
 end

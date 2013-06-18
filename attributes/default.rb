@@ -11,6 +11,9 @@ default["swift"]["service_user"] = "swift"                                  # no
 # Replacing with OpenSSL::Password in recipes/proxy-server.rb
 default["swift"]["service_role"] = "admin"                                  # node_attribute
 
+# should we install packages, or upgrade them?
+default["swift"]["package_action"] = "install"
+
 # should we use swift-informant?
 # we'll default this to off until we get upstream
 # packages from distros.  You can still use it, just be aware
