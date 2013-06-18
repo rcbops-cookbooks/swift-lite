@@ -1,0 +1,33 @@
+{
+  "name": "swift",
+  "description": "",
+  "cookbook_versions": {
+  },
+  "json_class": "Chef::Environment",
+  "chef_type": "environment",
+  "default_attributes": {
+  },
+  "override_attributes": {
+    "vips": {
+      "swift-proxy": "http://192.168.122.138:8080"
+    },
+    "mysql": {
+      "allow_remote_root": true,
+      "root_network_acl": "%"
+    },
+    "nova": {
+    },
+    "swift": {
+      "swift_hash": "5422589c-d779-11e2-b0c7-525400a10faa",
+      "package_action": "upgrade"
+    },
+    "osops_networks": {
+      "nova": "192.168.122.0/24",
+      "management": "192.168.122.0/24",
+      "public": "192.168.122.0/24",
+      "swift-storage": "192.168.122.0/24",
+      "swift-replication": "192.168.122.0/24",
+      "swift-proxy": "192.168.122.0/24"
+    }
+  }
+}
