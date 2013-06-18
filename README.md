@@ -75,6 +75,20 @@ interfaces on particular devices.
  * node[:osops_networks][:swift_proxy] - CIDR of the network that that
    the proxy listens on.
 
+If installing more than one swift proxy (which is likely), you will
+need to set the proxy vip which will get published in keystone.  This
+attribute is:
+
+ * node["vips"]["swift-proxy"]: "http(s?)://x.x.x.x:port"
+
+It is your responsibility to ensure it is ssl terminated (as
+appropriate to your environment).  I might suggest ZXTM or new
+HA-proxy with ssl, or HA-proxy with stud.
+
+Packages can be force upgraded using the following key:
+
+ * node["swift"]["package_action"] = "upgrade"
+
 Deps
 ====
 
@@ -91,11 +105,9 @@ Roles
  * swift-container-server - storage node for container data
  * swift-object-server - storage node for object server
  * swift-proxy-server - proxy for swift storge nodes
- * swift-all-in-one - role shortcut for all object classes and proxy
-   on one machine.
 
 In small environments, it is likely that all storage machines will
-have all-in-one roles, with a load balancer ahead of it
+have all these roles, with a load balancer ahead of it.
 
 In larger environments, where it is cost effective to split the proxy
 and storage layer, storage nodes will carry
@@ -137,18 +149,22 @@ This sets up defaults for a swauth-based cluster with the storage
 network on 192.168.122.0/24, replicating on same, and proxy listening
 on all available interfaces.
 
+More complete examples are in contrib/environment
+
+
 Run list for proxy server:
 
     "run_list": [
-        "recipe[swift-lite::proxy-server]"
+        "role[swift-setup]",
+        "role[swift-proxy-server]"
     ]
 
 Run list for combined object, container, and account server:
 
     "run_list": [
-        "recipe[swift-lite::object-server]",
-        "recipe[swift-lite::account-server]",
-        "recipe[swift-lite::container-server]"
+        "role[swift-object-server]",
+        "role[swift-account-server]",
+        "role[swift-container-server]"
     ]
 
 This obviously depends on a previously deployed keystone server using
@@ -159,6 +175,9 @@ This also wants relatively new swift.  You can use the newest
 backported versions of swift by adding recipe[osops-utils::packages],
 or by adding a package repo to point to newer swift before running any
 of the proxy or server recipes.
+
+The names of the roles are important, and example roles (which can be
+extened) are in contrib/roles.
 
 
 License and Author
