@@ -42,7 +42,7 @@ tries to do much less with the swift cluster.  Specifically:
 
  * It does not do drive detection, formatting, mounting or unmounting
 
-Generally this means that it does not do thing that could potentially
+Generally this means that it does not do things that could potentially
 cause cluster data loss, preferring to leave that to experienced
 system administrators.
 
