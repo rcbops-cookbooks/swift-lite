@@ -27,6 +27,15 @@ platform_options["swift_packages"].each do |pkg|
   end
 end
 
+# if we've specified a UID, we'll pre-create the user so package
+# ordering doesn't horse it up.  Otherwise, let the package go ahead
+# and add the user
+user "swift" do
+  uid node["swift"]["uid"]
+  # shell "/bin/false"
+  only_if node["swift"].has_key?("uid")
+end
+
 directory "/etc/swift" do
   action :create
   owner "swift"

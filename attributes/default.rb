@@ -1,18 +1,18 @@
-# blank initial swift state
-default["swift"]["state"] = {}
 # valid: :swauth or :keystone
-default["swift"]["authmode"] = "swauth"                                     # cluster_attribute
 default["swift"]["audit_hour"] = "5"                                        # cluster_attribute
-default["swift"]["disk_enum_expr"] = "node[:block_device]"                  # cluster_attribute
-default["swift"]["auto_rebuild_rings"] = false                              # cluster_attribute
 
 default["swift"]["service_tenant_name"] = "service"                         # node_attribute
 default["swift"]["service_user"] = "swift"                                  # node_attribute
+default["swift"]["service_password"] = nil
+
 # Replacing with OpenSSL::Password in recipes/proxy-server.rb
 default["swift"]["service_role"] = "admin"                                  # node_attribute
 
 # should we install packages, or upgrade them?
 default["swift"]["package_action"] = "install"
+
+# ensure a uid on the swift user?
+default["swift"]["uid"] = nil
 
 # should we use swift-informant?
 # we'll default this to off until we get upstream
@@ -35,17 +35,6 @@ default["swift"]["services"]["account-server"]["network"] = "swift-storage"     
 default["swift"]["services"]["account-server"]["port"] = 6002               # node_attribute (inherited from cluster?)
 
 default["swift"]["services"]["ring-repo"]["network"] = "swift-storage"              # node_attribute (inherited from cluster?)
-
-# attributes for monitoring
-
-# disk space percentage used before warning/error
-default["swift"]["monitoring"]["used_warning"] = 80                         # node_attribute (inherited from cluster?)
-default["swift"]["monitoring"]["used_failure"] = 85                         # node_attribute (inherited from cluster?)
-
-# other (non-swift) disk space before warning/error
-default["swift"]["monitoring"]["other_warning"] = 80                        # node_attribute (inherited from cluster?)
-default["swift"]["monitoring"]["other_failure"] = 95                        # node_attribute (inherited from cluster?)
-
 
 # Leveling between distros
 case platform
