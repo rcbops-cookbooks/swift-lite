@@ -1,24 +1,5 @@
-<%
-
-case @authmode
-when "keystone"
-  pipeline="authtoken keystoneauth"
-when "swauth"
-  pipeline="swauth"
-end
-
-account_management=false
-if node[:roles].include?("swift-management-server") and node[:swift][:authmode] == "swauth" then
-  account_management="true"
-end
--%>
 # This file is managed by chef.  Do not edit it.
 #
-# Cluster info:
-#   Auth mode: <%= node[:swift][:authmode] %>
-#   Management server: <%= node[:roles].include?("swift-management-server") %>
-#   Account management enabled: <%= account_management %>
-#   Auth pipeline: <%= pipeline %>
 
 [DEFAULT]
 # bind_ip = 0.0.0.0
@@ -40,7 +21,7 @@ bind_ip = <%= @bind_host %>
 bind_port = <%= @bind_port %>
 
 [pipeline:main]
-pipeline = <% if @use_informant %>informant <% end %>catch_errors healthcheck cache ratelimit <%= pipeline %> proxy-server
+pipeline = catch_errors healthcheck cache ratelimit authtoken keystoneauth proxy-server
 
 [app:proxy-server]
 use = egg:swift#proxy
@@ -76,38 +57,7 @@ use = egg:swift#proxy
 # cluster will be automatically created.
 # account_autocreate = false
 ######
-allow_account_management = <%= account_management %>
-<% if @authmode == "keystone" -%>
 account_autocreate = true
-<% end %>
-
-<% if @use_informant %>
-[filter:informant]
-use = egg:informant#informant
-# statsd_host = 127.0.0.1
-# statsd_port = 8125
-# standard statsd sample rate 0.0 <= 1
-# statsd_sample_rate = 0.5
-# list of allowed methods, all others will generate a "BAD_METHOD" event
-# valid_http_methods = GET,HEAD,POST,PUT,DELETE,COPY
-# send multiple statsd events per packet as supported by statsdpy
-# combined_events = no
-# prepends name to metric collection output for easier recognition, e.g. company.swift.
-# metric_name_prepend =
-#####
-statsd_host = <%= @statsd_host %>
-statsd_port = <%= @statsd_port %>
-<% end %>
-
-[filter:swauth]
-use = egg:swauth#swauth
-# set log_name = swauth
-# super_admin_key = <secret_key>
-######
-<% if account_management -%>
-super_admin_key = <%= node[:swift][:authkey] %>
-<% end -%>
-default_swift_cluster = local#<%= @cluster_endpoint %>
 
 [filter:healthcheck]
 use = egg:swift#healthcheck
@@ -244,10 +194,10 @@ use = egg:swift#keystoneauth
 
 [filter:authtoken]
 paste.filter_factory = keystone.middleware.auth_token:filter_factory
-auth_host = <%= @keystone_api_ipaddress %>
-auth_port = <%= @keystone_admin_port %>
-auth_protocol = http
-auth_uri = http://<%= @keystone_api_ipaddress %>:<%= @keystone_admin_port %>/
+# auth_host = <%= @keystone_api_ipaddress %>
+# auth_port = <%= @keystone_admin_port %>
+# auth_protocol = http
+auth_uri = <@keystone_auth_uri>
 admin_tenant_name = <%= @service_tenant_name %>
 admin_user = <%= @service_user %>
 admin_password = <%= @service_pass %>

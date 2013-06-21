@@ -3,7 +3,7 @@ default["swift"]["audit_hour"] = "5"                                        # cl
 
 default["swift"]["service_tenant_name"] = "service"                         # node_attribute
 default["swift"]["service_user"] = "swift"                                  # node_attribute
-default["swift"]["service_password"] = nil
+default["swift"]["service_pass"] = nil
 
 # Replacing with OpenSSL::Password in recipes/proxy-server.rb
 default["swift"]["service_role"] = "admin"                                  # node_attribute
@@ -19,6 +19,10 @@ default["swift"]["uid"] = nil
 # packages from distros.  You can still use it, just be aware
 # it gets packages from the osops ppa
 default["swift"]["use_informant"] = false                                   # cluster_attribute
+
+# keystone information
+default["swift"]["region"] = "RegionOne"
+default["swift"]["keystone_endpoint"] = "http://127.0.0.1/"
 
 default["swift"]["services"]["proxy"]["scheme"] = "http"                    # node_attribute
 default["swift"]["services"]["proxy"]["network"] = "swift-proxy"           # node_attribute (inherited from cluster?)

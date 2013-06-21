@@ -33,7 +33,7 @@ end
 user "swift" do
   uid node["swift"]["uid"]
   # shell "/bin/false"
-  only_if node["swift"].has_key?("uid")
+  only_if { node["swift"].has_key?("uid") }
 end
 
 directory "/etc/swift" do
@@ -70,31 +70,12 @@ template "/etc/sudoers.d/swift" do
   action :nothing
 end
 
-keystone = get_settings_by_role("keystone-setup", "keystone")
-ks_service_endpoint = get_access_endpoint("keystone-api", "keystone", "service-api")
 
-template "/root/swift-openrc" do
-  source "swift-openrc.erb"
-  owner "swift"
-  group "swift"
-  mode "0600"
-  vars = {
-    "user" => keystone["admin_user"],
-    "tenant" => keystone["users"][keystone["admin_user"]]["default_tenant"],
-    "password" => keystone["users"][keystone["admin_user"]]["password"],
-    "keystone_api_ipaddress" => ks_service_endpoint["host"],
-    "keystone_service_port" => ks_service_endpoint["port"],
-    "auth_strategy" => "keystone",
-  }
-  variables(vars)
-end
-
-
-# Sysctl tuning
-include_recipe "sysctl::default"
-sysctl_multi "swift" do
-  instructions("net.ipv4.tcp_tw_reuse" => "1",
-               "net.ipv4.ip_local_port_range" => "10000 61000",
-               "net.ipv4.tcp_syncookies" => "0",
-               "net.ipv4.tcp_fin_timeout" => "30")
-end
+# # Sysctl tuning
+# include_recipe "sysctl::default"
+# sysctl_multi "swift" do
+#   instructions("net.ipv4.tcp_tw_reuse" => "1",
+#                "net.ipv4.ip_local_port_range" => "10000 61000",
+#                "net.ipv4.tcp_syncookies" => "0",
+#                "net.ipv4.tcp_fin_timeout" => "30")
+# end
