@@ -14,11 +14,9 @@ default["swift"]["package_action"] = "install"
 # ensure a uid on the swift user?
 default["swift"]["uid"] = nil
 
-# should we use swift-informant?
-# we'll default this to off until we get upstream
-# packages from distros.  You can still use it, just be aware
-# it gets packages from the osops ppa
-default["swift"]["use_informant"] = false                                   # cluster_attribute
+# role to use to find memcache servers
+default["swift"]["memcache_role"] = "swift-lite-proxy"
+
 
 # keystone information
 default["swift"]["region"] = "RegionOne"

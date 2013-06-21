@@ -60,7 +60,7 @@ service "swift-proxy" do
 end
 
 # Find all our endpoint info
-memcache_endpoints = get_realserver_endpoints("memcached", "memcached", "cache")
+memcache_endpoints = get_realserver_endpoints(node["swift"]["memcache_role"], "memcached", "cache")
 
 memcache_servers = memcache_endpoints.collect do |endpoint|
   "#{endpoint["host"]}:#{endpoint["port"]}"
