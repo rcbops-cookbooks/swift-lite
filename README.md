@@ -53,6 +53,8 @@ Attributes
 
  * node[:swift][:audit_hour] - Hour to run swift_auditor on storage nodes (default 5)
 
+ * node["swift"]["uid"] - uid of swift user (will be created before installing packages)
+
 The following values can override values from search.  If deploying
 keystone using the rcbops cookbooks, these need not be set, as they
 will be determined from the keystone configuration.
