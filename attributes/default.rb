@@ -18,8 +18,8 @@ default["swift"]["uid"] = nil
 default["swift"]["memcache_role"] = "swift-lite-proxy"
 
 # swift dsh management
-default["swift"]["dsh"]["user"] = "swift-management"
-default["swift"]["dsh"]["admin_user"] = "swift-admin"
+default["swift"]["dsh"]["user"]["name"] = "swiftops"
+default["swift"]["dsh"]["admin_user"]["name"] = "swiftops"
 default["swift"]["dsh"]["network"] = "swift-management"
 
 # keystone information
