@@ -75,7 +75,7 @@ else
 end
 
 proxy_bind = get_bind_endpoint("swift", "proxy")
-proxy_access = get_access_endpoint("swift-lite-proxy", "swift", "proxy")
+#proxy_access = get_access_endpoint("swift-lite-proxy", "swift", "proxy")
 
 template "/etc/swift/proxy-server.conf" do
   source "proxy-server.conf.erb"
@@ -93,4 +93,10 @@ template "/etc/swift/proxy-server.conf" do
             "bind_port" => proxy_bind["port"]
             )
   notifies :restart, "service[swift-proxy]", :immediately
+end
+
+dsh_group "swift-proxy-servers" do
+  user node["swift"]["dsh"]["user"]
+  network node["swift"]["dsh"]["network"]
+  notifies :create, "template[swift-management-sudoers]", :immediately
 end

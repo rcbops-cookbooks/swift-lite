@@ -1,0 +1,4 @@
+<% if node['dsh']['groups'].key? 'swift-management' %>
+<%= node['dsh']['groups']['swift-management']['user'] %> ALL=(ALL) NOPASSWD: ALL
+<% end %>
+
