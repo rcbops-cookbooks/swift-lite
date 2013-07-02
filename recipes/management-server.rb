@@ -17,9 +17,10 @@
 # limitations under the License.
 #
 
-groups = %w{ swift-proxy-servers swift-account-servers swift-container-servers swift-object-servers }
+storage = %w{ swift-account-servers swift-container-servers swift-object-servers }
+everyone = Array.new(storage).push("swift-proxy-servers")
 
-groups.each do |group|
+everyone.each do |group|
   dsh_group group do
     admin_user node["swift"]["dsh"]["admin_user"]
     network node["swift"]["dsh"]["network"]
@@ -30,6 +31,14 @@ execute "swift-storage-dsh-group" do
   username = node["swift"]["dsh"]["admin_user"]["name"]
 
   cwd "/home/#{username}/.dsh/group"
-  command "cat #{groups.join(' ')} | sort | uniq > swift-storage"
+  command "cat #{storage.join(' ')} | sort | uniq > swift-storage"
+  user username
+end
+
+execute "swift-dsh-group" do
+  username = node["swift"]["dsh"]["admin_user"]["name"]
+
+  cwd "/home/#{username}/.dsh/group"
+  command "cat #{everyone.join(' ')} | sort | uniq > swift"
   user username
 end
