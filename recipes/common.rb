@@ -70,6 +70,17 @@ template "/etc/sudoers.d/swift" do
   action :nothing
 end
 
+template "swift-management-sudoers" do
+  path "/etc/sudoers.d/swift-management"
+  source "sudo/swift-management.erb"
+  owner "root"
+  group "root"
+  mode "0440"
+  variables(
+    :node => node
+  )
+  action :nothing
+end
 
 # # Sysctl tuning
 # include_recipe "sysctl::default"

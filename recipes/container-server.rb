@@ -93,3 +93,9 @@ template "/etc/swift/container-server.conf" do
   notifies :restart, "service[swift-container-updater]", :immediately
   notifies :restart, "service[swift-container-auditor]", :immediately
 end
+
+dsh_group "swift-container-servers" do
+  user node["swift"]["dsh"]["user"]
+  network node["swift"]["dsh"]["network"]
+  notifies :create, "template[swift-management-sudoers]", :immediately
+end

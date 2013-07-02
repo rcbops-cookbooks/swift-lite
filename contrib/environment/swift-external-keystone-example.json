@@ -27,7 +27,8 @@
       "public": "192.168.122.0/24",
       "swift-storage": "192.168.122.0/24",
       "swift-replication": "192.168.122.0/24",
-      "swift-proxy": "192.168.122.0/24"
+      "swift-proxy": "192.168.122.0/24",
+      "swift-management": "192.168.122.0/24"
     }
   }
 }
