@@ -64,9 +64,9 @@ template "/etc/sudoers.d/swift" do
   owner "root"
   group "root"
   mode "0440"
-  variables({
-              :node => node
-            })
+  variables(
+    :node => node
+  )
   action :nothing
 end
 
@@ -77,9 +77,8 @@ template "swift-management-sudoers" do
   group "root"
   mode "0440"
   variables(
-    :node => node
+    :user => node["swift"]["dsh"]["user"]["name"]
   )
-  action :nothing
 end
 
 # # Sysctl tuning

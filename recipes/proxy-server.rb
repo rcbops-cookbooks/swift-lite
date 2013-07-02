@@ -98,5 +98,4 @@ end
 dsh_group "swift-proxy-servers" do
   user node["swift"]["dsh"]["user"]
   network node["swift"]["dsh"]["network"]
-  notifies :create, "template[swift-management-sudoers]", :immediately
 end
