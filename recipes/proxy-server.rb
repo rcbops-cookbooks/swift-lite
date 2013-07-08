@@ -74,6 +74,9 @@ else
   keystone_auth_uri = ks_admin.uri
 end
 
+keystone_uri = URI(keystone_auth_uri)
+
+
 proxy_bind = get_bind_endpoint("swift", "proxy")
 #proxy_access = get_access_endpoint("swift-lite-proxy", "swift", "proxy")
 
@@ -84,7 +87,9 @@ template "/etc/swift/proxy-server.conf" do
   mode "0600"
   variables("bind_host" => proxy_bind["host"],
             "bind_port" => proxy_bind["port"],
-            "keystone_auth_uri" => keystone_auth_uri,
+            "keystone_api_ipaddress" => keystone_uri.host,
+            "keystone_admin_port" => keystone_uri.port,
+            "keystone_auth_protocol" => keystone_uri.scheme,
             "service_tenant_name" => swift_settings["service_tenant_name"],
             "service_user" => swift_settings["service_user"],
             "service_pass" => swift_settings["service_pass"],
