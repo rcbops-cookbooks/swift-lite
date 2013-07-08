@@ -22,6 +22,11 @@ default["swift"]["dsh"]["user"]["name"] = "swiftops"
 default["swift"]["dsh"]["admin_user"]["name"] = "swiftops"
 default["swift"]["dsh"]["network"] = "swift-management"
 
+# swift ntp
+default["swift"]["ntp"]["servers"] = []
+default["swift"]["ntp"]["role"] = "swift-lite-ntp"
+default["swift"]["ntp"]["network"] = "swift-management"
+
 # keystone information
 default["swift"]["region"] = "RegionOne"
 default["swift"]["keystone_endpoint"] = "http://127.0.0.1/"
