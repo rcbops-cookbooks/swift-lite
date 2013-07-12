@@ -27,6 +27,29 @@ default["swift"]["ntp"]["servers"] = []
 default["swift"]["ntp"]["role"] = "swift-lite-ntp"
 default["swift"]["ntp"]["network"] = "swift-management"
 
+
+# proxy service tuning
+default["swift"]["proxy"]["pipeline"] = "catch_errors healthcheck cache ratelimit authtoken keystoneauth proxy-server"
+default["swift"]["proxy"]["log_facility"] = "LOG_LOCAL0"
+default["swift"]["proxy"]["operator_roles"] = "admin, Member"
+default["swift"]["proxy"]["workers"] = [node["cpu"]["total"] -1 ,1].max
+
+# account service tuning
+default["swift"]["account"]["pipeline"] = "healthcheck recon account-server"
+default["swift"]["account"]["log_facility"] = "LOG_LOCAL0"
+default["swift"]["account"]["workers"] = 2
+
+# container service tuning
+default["swift"]["container"]["pipeline"] = "healthcheck recon container-server"
+default["swift"]["container"]["log_facility"] = "LOG_LOCAL0"
+default["swift"]["container"]["workers"] = 2
+
+# object service tuning
+default["swift"]["object"]["pipeline"] = "healthcheck recon object-server"
+default["swift"]["object"]["log_facility"] = "LOG_LOCAL0"
+default["swift"]["object"]["workers"] = 2
+
+
 # keystone information
 default["swift"]["region"] = "RegionOne"
 default["swift"]["keystone_endpoint"] = "http://127.0.0.1/"
