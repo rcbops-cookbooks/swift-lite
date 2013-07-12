@@ -42,7 +42,7 @@ tries to do much less with the swift cluster.  Specifically:
 
  * It does not do drive detection, formatting, mounting or unmounting
 
-Generally this means that it does not do thing that could potentially
+Generally this means that it does not do things that could potentially
 cause cluster data loss, preferring to leave that to experienced
 system administrators.
 
@@ -52,6 +52,8 @@ Attributes
  * node[:swift][:swift_hash] - swift_hash_path_suffix in /etc/swift/swift.conf
 
  * node[:swift][:audit_hour] - Hour to run swift_auditor on storage nodes (default 5)
+
+ * node["swift"]["uid"] - uid of swift user (will be created before installing packages)
 
 The following values can override values from search.  If deploying
 keystone using the rcbops cookbooks, these need not be set, as they

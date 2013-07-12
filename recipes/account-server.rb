@@ -84,10 +84,18 @@ template "/etc/swift/account-server.conf" do
   group "swift"
   mode "0600"
   variables("bind_ip" => account_endpoint["host"],
-            "bind_port" => account_endpoint["port"])
+            "bind_port" => account_endpoint["port"],
+            "pipeline" => node["swift"]["account"]["pipeline"],
+            "workers" => node["swift"]["account"]["workers"],
+            "log_facility" => node["swift"]["account"]["log_facility"])
 
   notifies :restart, "service[swift-account]", :immediately
   notifies :restart, "service[swift-account-auditor]", :immediately
   notifies :restart, "service[swift-account-reaper]", :immediately
   notifies :restart, "service[swift-account-replicator]", :immediately
+end
+
+dsh_group "swift-account-servers" do
+  user node["swift"]["dsh"]["user"]
+  network node["swift"]["dsh"]["network"]
 end

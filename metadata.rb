@@ -8,12 +8,15 @@ recipe            "swift-lite::account-server", "Installs the swift account serv
 recipe            "swift-lite::object-server", "Installs the swift object server"
 recipe            "swift-lite::proxy-server", "Installs the swift proxy server"
 recipe            "swift-lite::container-server", "Installs the swift container server"
+recipe            "swift-lite::management-server", "Installs the swift management server"
+recipe            "swift-lite::ntp-server", "Installs the ntp server for the swift cluster"
+recipe            "swift-lite::ntp", "Configures ntp on the nodes to use the cluster ntp server"
 
 %w{ centos ubuntu }.each do |os|
   supports os
 end
 
-%w{ dsh openssl osops-utils sysctl memcached-openstack }.each do |dep|
+%w{ dsh openssl osops-utils sysctl memcached-openstack ntp }.each do |dep|
   depends dep
 end
 

@@ -27,6 +27,15 @@ platform_options["swift_packages"].each do |pkg|
   end
 end
 
+# if we've specified a UID, we'll pre-create the user so package
+# ordering doesn't horse it up.  Otherwise, let the package go ahead
+# and add the user
+user "swift" do
+  uid node["swift"]["uid"]
+  # shell "/bin/false"
+  only_if { node["swift"].has_key?("uid") }
+end
+
 directory "/etc/swift" do
   action :create
   owner "swift"
@@ -35,12 +44,13 @@ directory "/etc/swift" do
   only_if "/usr/bin/id swift"
 end
 
-file "/etc/swift/swift.conf" do
+template "/etc/swift/swift.conf" do
   action :create
   owner "swift"
   group "swift"
   mode "0700"
-  content "[swift-hash]\nswift_hash_path_suffix=#{node['swift']['swift_hash']}\n"
+  variables("hash_path_suffix" => node["swift"]["swift_hash_suffix"],
+            "hash_path_prefix" => node["swift"]["swift_hash_prefix"])
   only_if "/usr/bin/id swift"
 end
 
@@ -55,37 +65,28 @@ template "/etc/sudoers.d/swift" do
   owner "root"
   group "root"
   mode "0440"
-  variables({
-              :node => node
-            })
+  variables(
+    :node => node
+  )
   action :nothing
 end
 
-keystone = get_settings_by_role("keystone-setup", "keystone")
-ks_service_endpoint = get_access_endpoint("keystone-api", "keystone", "service-api")
-
-template "/root/swift-openrc" do
-  source "swift-openrc.erb"
-  owner "swift"
-  group "swift"
-  mode "0600"
-  vars = {
-    "user" => keystone["admin_user"],
-    "tenant" => keystone["users"][keystone["admin_user"]]["default_tenant"],
-    "password" => keystone["users"][keystone["admin_user"]]["password"],
-    "keystone_api_ipaddress" => ks_service_endpoint["host"],
-    "keystone_service_port" => ks_service_endpoint["port"],
-    "auth_strategy" => "keystone",
-  }
-  variables(vars)
+template "swift-management-sudoers" do
+  path "/etc/sudoers.d/swift-management"
+  source "sudo/swift-management.erb"
+  owner "root"
+  group "root"
+  mode "0440"
+  variables(
+    :user => node["swift"]["dsh"]["user"]["name"]
+  )
 end
 
-
-# Sysctl tuning
-include_recipe "sysctl::default"
-sysctl_multi "swift" do
-  instructions("net.ipv4.tcp_tw_reuse" => "1",
-               "net.ipv4.ip_local_port_range" => "10000 61000",
-               "net.ipv4.tcp_syncookies" => "0",
-               "net.ipv4.tcp_fin_timeout" => "30")
-end
+# # Sysctl tuning
+# include_recipe "sysctl::default"
+# sysctl_multi "swift" do
+#   instructions("net.ipv4.tcp_tw_reuse" => "1",
+#                "net.ipv4.ip_local_port_range" => "10000 61000",
+#                "net.ipv4.tcp_syncookies" => "0",
+#                "net.ipv4.tcp_fin_timeout" => "30")
+# end

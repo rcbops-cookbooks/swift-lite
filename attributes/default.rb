@@ -1,51 +1,103 @@
-# blank initial swift state
-default["swift"]["state"] = {}
 # valid: :swauth or :keystone
-default["swift"]["authmode"] = "swauth"                                     # cluster_attribute
 default["swift"]["audit_hour"] = "5"                                        # cluster_attribute
-default["swift"]["disk_enum_expr"] = "node[:block_device]"                  # cluster_attribute
-default["swift"]["auto_rebuild_rings"] = false                              # cluster_attribute
 
 default["swift"]["service_tenant_name"] = "service"                         # node_attribute
 default["swift"]["service_user"] = "swift"                                  # node_attribute
+default["swift"]["service_pass"] = nil
+
 # Replacing with OpenSSL::Password in recipes/proxy-server.rb
 default["swift"]["service_role"] = "admin"                                  # node_attribute
 
 # should we install packages, or upgrade them?
 default["swift"]["package_action"] = "install"
 
-# should we use swift-informant?
-# we'll default this to off until we get upstream
-# packages from distros.  You can still use it, just be aware
-# it gets packages from the osops ppa
-default["swift"]["use_informant"] = false                                   # cluster_attribute
+# ensure a uid on the swift user?
+default["swift"]["uid"] = nil
+
+# role to use to find memcache servers
+default["swift"]["memcache_role"] = "swift-lite-proxy"
+
+# swift dsh management
+default["swift"]["dsh"]["user"]["name"] = "swiftops"
+default["swift"]["dsh"]["admin_user"]["name"] = "swiftops"
+default["swift"]["dsh"]["network"] = "swift-management"
+
+# swift ntp
+default["swift"]["ntp"]["servers"] = []
+default["swift"]["ntp"]["role"] = "swift-lite-ntp"
+default["swift"]["ntp"]["network"] = "swift-management"
+
+
+# proxy service tuning
+default["swift"]["proxy"]["pipeline"] = "catch_errors healthcheck cache ratelimit authtoken keystoneauth proxy-server"
+default["swift"]["proxy"]["log_facility"] = "LOG_LOCAL0"
+default["swift"]["proxy"]["operator_roles"] = "admin, Member"
+default["swift"]["proxy"]["workers"] = [node["cpu"]["total"] -1 ,1].max
+
+# account service tuning
+default["swift"]["account"]["pipeline"] = "healthcheck recon account-server"
+default["swift"]["account"]["log_facility"] = "LOG_LOCAL0"
+default["swift"]["account"]["workers"] = 2
+
+# container service tuning
+default["swift"]["container"]["pipeline"] = "healthcheck recon container-server"
+default["swift"]["container"]["log_facility"] = "LOG_LOCAL0"
+default["swift"]["container"]["workers"] = 2
+
+# object service tuning
+default["swift"]["object"]["pipeline"] = "healthcheck recon object-server"
+default["swift"]["object"]["log_facility"] = "LOG_LOCAL0"
+default["swift"]["object"]["workers"] = 2
+
+
+# keystone information
+default["swift"]["region"] = "RegionOne"
+default["swift"]["keystone_endpoint"] = "http://127.0.0.1/"
 
 default["swift"]["services"]["proxy"]["scheme"] = "http"                    # node_attribute
 default["swift"]["services"]["proxy"]["network"] = "swift-proxy"           # node_attribute (inherited from cluster?)
 default["swift"]["services"]["proxy"]["port"] = 8080                        # node_attribute (inherited from cluster?)
 default["swift"]["services"]["proxy"]["path"] = "/v1/AUTH_%(tenant_id)s"                       # node_attribute
+default["swift"]["services"]["proxy"]["sysctl"] = {
+  "net.ipv4.tcp_tw_recycle" => "1",
+  "net.ipv4.tcp_tw_reuse" => "1",
+  "net.ipv4.ip_local_port_range" => "1024 61000",
+  "net.ipv4.tcp_syncookies" => 0
+}
+
+free_memory = node["memory"]["free"].to_i
 
 default["swift"]["services"]["object-server"]["network"] = "swift-storage"          # node_attribute (inherited from cluster?)
 default["swift"]["services"]["object-server"]["port"] = 6000                # node_attribute (inherited from cluster?)
+default["swift"]["services"]["object-server"]["sysctl"] = {
+  "net.ipv4.tcp_tw_recycle" => "1",
+  "net.ipv4.tcp_tw_reuse" => "1",
+  "net.ipv4.ip_local_port_range" => "1024 61000",
+  "net.ipv4.tcp_syncookies" => "0",
+  "vm.min_free_kbytes" => (free_memory/2 > 1048576) ? 1048576 : (free_memory/2).to_i
+}
 
 default["swift"]["services"]["container-server"]["network"] = "swift-storage"       # node_attribute (inherited from cluster?)
 default["swift"]["services"]["container-server"]["port"] = 6001             # node_attribute (inherited from cluster?)
+default["swift"]["services"]["container-server"]["sysctl"] = {
+  "net.ipv4.tcp_tw_recycle" => "1",
+  "net.ipv4.tcp_tw_reuse" => "1",
+  "net.ipv4.ip_local_port_range" => "1024 61000",
+  "net.ipv4.tcp_syncookies" => "0",
+  "vm.min_free_kbytes" => (free_memory/2 > 1048576) ? 1048576 : (free_memory/2).to_i
+}
 
 default["swift"]["services"]["account-server"]["network"] = "swift-storage"         # node_attribute (inherited from cluster?)
 default["swift"]["services"]["account-server"]["port"] = 6002               # node_attribute (inherited from cluster?)
+default["swift"]["services"]["account-server"]["sysctl"] = {
+  "net.ipv4.tcp_tw_recycle" => "1",
+  "net.ipv4.tcp_tw_reuse" => "1",
+  "net.ipv4.ip_local_port_range" => "1024 61000",
+  "net.ipv4.tcp_syncookies" => "0",
+  "vm.min_free_kbytes" => (free_memory/2 > 1048576) ? 1048576 : (free_memory/2).to_i
+}
 
 default["swift"]["services"]["ring-repo"]["network"] = "swift-storage"              # node_attribute (inherited from cluster?)
-
-# attributes for monitoring
-
-# disk space percentage used before warning/error
-default["swift"]["monitoring"]["used_warning"] = 80                         # node_attribute (inherited from cluster?)
-default["swift"]["monitoring"]["used_failure"] = 85                         # node_attribute (inherited from cluster?)
-
-# other (non-swift) disk space before warning/error
-default["swift"]["monitoring"]["other_warning"] = 80                        # node_attribute (inherited from cluster?)
-default["swift"]["monitoring"]["other_failure"] = 95                        # node_attribute (inherited from cluster?)
-
 
 # Leveling between distros
 case platform

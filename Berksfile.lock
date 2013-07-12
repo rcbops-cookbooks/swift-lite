@@ -1,5 +1,5 @@
 {
-  "sha": "bc1d7f62628f3046b4ae53f69fb6c77fa132b4d2",
+  "sha": "d2f9457600fecf707527bf9e336eaf5de8864d7d",
   "sources": {
     "swift-lite": {
       "locked_version": "1.0.16",
@@ -30,6 +30,11 @@
       "locked_version": "1.0.20",
       "git": "git://github.com/rcbops-cookbooks/keystone",
       "ref": "cae134ffb93f5b131107a895bcff84c816d3976f"
+    },
+    "mysql-openstack": {
+      "locked_version": "1.0.14",
+      "git": "git://github.com/rcbops-cookbooks/mysql-openstack",
+      "ref": "bb356db6ceb2a854058697d620d7a41c6d7bb1c2"
     },
     "openssl": {
       "locked_version": "1.0.2"
@@ -66,6 +71,9 @@
     },
     "xfs": {
       "locked_version": "1.1.0"
+    },
+    "keepalived": {
+      "locked_version": "1.0.4"
     }
   }
 }

@@ -20,25 +20,8 @@ include_recipe "swift-lite::common"
 include_recipe "memcached-openstack"
 include_recipe "osops-utils"
 
-# Find the node that ran the swift-setup recipe and grab his passswords
-if Chef::Config[:solo]
-  Chef::Application.fatal! "This recipe uses search. Chef Solo does not support search."
-else
-  if node.run_list.expand(node.chef_environment).recipes.include?("swift-lite::setup")
-    Chef::Log.info("I ran the swift::setup so I will use my own swift passwords")
-  else
-    setup = search(:node, "chef_environment:#{node.chef_environment} AND roles:swift-setup")
-    if setup.length == 0
-      Chef::Application.fatal! "You must have run the swift-lite::setup recipe (on this or another node) before running the swift::proxy recipe on this node"
-    elsif setup.length == 1
-      Chef::Log.info "Found swift::setup node: #{setup[0].name}"
-      node.set["swift"]["service_pass"] = setup[0]["swift"]["service_pass"]
-    elsif setup.length > 1
-      Chef::Application.fatal! "You have multiple nodes in your environment that have run swift-setup, and that is not allowed"
-    end
-  end
-end
-
+# find the node with the service password
+swift_settings = node["swift"] unless get_settings_by_recipe("swift-lite::setup", "swift") != nil
 platform_options = node["swift"]["platform"]
 
 # install platform-specific packages
@@ -77,48 +60,51 @@ service "swift-proxy" do
 end
 
 # Find all our endpoint info
-
-# if swift is configured to use monitoring then get the endpoint.  If it is
-# not then we need to fake the endpoint so the template for proxy-server.conf
-# lays down the config file correctly.
-if node["swift"]["use_informant"] then
-    statsd_endpoint = get_access_endpoint("graphite", "statsd", "statsd")
-else
-    statsd_endpoint={"host"=>"undefined","port"=>"undefined"}
-end
-
-memcache_endpoints = get_realserver_endpoints("memcached", "memcached", "cache")
+memcache_endpoints = get_realserver_endpoints(node["swift"]["memcache_role"], "memcached", "cache")
 
 memcache_servers = memcache_endpoints.collect do |endpoint|
   "#{endpoint["host"]}:#{endpoint["port"]}"
 end.join(",")
 
+
+if swift_settings.has_key?("keystone_endpoint")
+  keystone_auth_uri = swift_settings["keystone_endpoint"]
+else
+  ks_admin = get_access_endpoint("keystone-api", "keystone", "admin-api")
+  keystone_auth_uri = ks_admin.uri
+end
+
+keystone_uri = URI(keystone_auth_uri)
+
+
 proxy_bind = get_bind_endpoint("swift", "proxy")
-proxy_access = get_access_endpoint("swift-proxy-server", "swift", "proxy")
-ks_admin = get_access_endpoint("keystone-api","keystone","admin-api")
-ks_service = get_access_endpoint("keystone-api","keystone","service-api")
+#proxy_access = get_access_endpoint("swift-lite-proxy", "swift", "proxy")
 
 template "/etc/swift/proxy-server.conf" do
   source "proxy-server.conf.erb"
   owner "swift"
   group "swift"
   mode "0600"
-  variables("authmode" => "keystone",
-            "bind_host" => proxy_bind["host"],
+  variables("bind_host" => proxy_bind["host"],
             "bind_port" => proxy_bind["port"],
-            "keystone_api_ipaddress" => ks_admin["host"],
-            "keystone_service_port" => ks_service["port"],
-            "keystone_admin_port" => ks_admin["port"],
-            "service_tenant_name" => node["swift"]["service_tenant_name"],
-            "service_user" => node["swift"]["service_user"],
-            "service_pass" => node["swift"]["service_pass"],
+            "workers" => node["swift"]["proxy"]["workers"],
+            "operator_roles" => node["swift"]["proxy"]["operator_roles"],
+            "proxy_pipeline" => node["swift"]["proxy"]["pipeline"],
+            "keystone_api_ipaddress" => keystone_uri.host,
+            "keystone_admin_port" => keystone_uri.port,
+            "keystone_auth_protocol" => keystone_uri.scheme,
+            "service_tenant_name" => swift_settings["service_tenant_name"],
+            "service_user" => swift_settings["service_user"],
+            "service_pass" => swift_settings["service_pass"],
             "memcache_servers" => memcache_servers,
             "bind_host" => proxy_bind["host"],
             "bind_port" => proxy_bind["port"],
-            "cluster_endpoint" => proxy_access["uri"],
-            "use_informant" => node["swift"]["use_informant"],
-            "statsd_host" => statsd_endpoint["host"],
-            "statsd_port" => statsd_endpoint["port"]
+            "proxy_log_facility" => node["swift"]["proxy"]["log_facility"]
             )
   notifies :restart, "service[swift-proxy]", :immediately
+end
+
+dsh_group "swift-proxy-servers" do
+  user node["swift"]["dsh"]["user"]
+  network node["swift"]["dsh"]["network"]
 end
