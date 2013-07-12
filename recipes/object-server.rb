@@ -88,7 +88,10 @@ template "/etc/swift/object-server.conf" do
   group "swift"
   mode "0600"
   variables("bind_ip" => object_endpoint["host"],
-            "bind_port" => object_endpoint["port"])
+            "bind_port" => object_endpoint["port"],
+            "workers" => node["swift"]["object"]["workers"],
+            "log_facility" => node["swift"]["object"]["log_facility"],
+            "pipeline" => node["swift"]["object"]["pipeline"])
 
 
 

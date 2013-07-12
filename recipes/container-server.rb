@@ -86,7 +86,10 @@ template "/etc/swift/container-server.conf" do
   group "swift"
   mode "0600"
   variables("bind_ip" => container_endpoint["host"],
-            "bind_port" => container_endpoint["port"])
+            "bind_port" => container_endpoint["port"],
+            "workers" => node["swift"]["container"]["workers"],
+            "log_facility" => node["swift"]["container"]["log_facility"],
+            "pipeline" => node["swift"]["container"]["pipeline"])
 
   notifies :restart, "service[swift-container]", :immediately
   notifies :restart, "service[swift-container-replicator]", :immediately
