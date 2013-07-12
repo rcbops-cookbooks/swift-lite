@@ -87,6 +87,9 @@ template "/etc/swift/proxy-server.conf" do
   mode "0600"
   variables("bind_host" => proxy_bind["host"],
             "bind_port" => proxy_bind["port"],
+            "workers" => node["swift"]["proxy"]["workers"],
+            "operator_roles" => node["swift"]["proxy"]["operator_roles"],
+            "proxy_pipeline" => node["swift"]["proxy"]["pipeline"],
             "keystone_api_ipaddress" => keystone_uri.host,
             "keystone_admin_port" => keystone_uri.port,
             "keystone_auth_protocol" => keystone_uri.scheme,
@@ -95,7 +98,8 @@ template "/etc/swift/proxy-server.conf" do
             "service_pass" => swift_settings["service_pass"],
             "memcache_servers" => memcache_servers,
             "bind_host" => proxy_bind["host"],
-            "bind_port" => proxy_bind["port"]
+            "bind_port" => proxy_bind["port"],
+            "proxy_log_facility" => node["swift"]["proxy"]["log_facility"]
             )
   notifies :restart, "service[swift-proxy]", :immediately
 end

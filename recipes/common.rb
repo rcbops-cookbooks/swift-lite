@@ -44,12 +44,13 @@ directory "/etc/swift" do
   only_if "/usr/bin/id swift"
 end
 
-file "/etc/swift/swift.conf" do
+template "/etc/swift/swift.conf" do
   action :create
   owner "swift"
   group "swift"
   mode "0700"
-  content "[swift-hash]\nswift_hash_path_suffix=#{node['swift']['swift_hash']}\n"
+  variables("hash_path_suffix" => node["swift"]["swift_hash_suffix"],
+            "hash_path_prefix" => node["swift"]["swift_hash_prefix"])
   only_if "/usr/bin/id swift"
 end
 
