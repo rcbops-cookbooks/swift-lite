@@ -184,7 +184,8 @@ License and Author
 ==================
 
 Author:: Ron Pedde (<ron.pedde@rackspace.com>)
-Author:: Will Kelly (<will.kelly@rackspace.com>)
+Author:: Will Kelly (<william.kelly@rackspace.com>)
+Author:: Chris Laco (<chris.laco@rackspace.com>)
 
 Copyright:: 2012, 2013 Rackspace US, Inc.
 
