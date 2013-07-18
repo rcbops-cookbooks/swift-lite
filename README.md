@@ -36,7 +36,7 @@ Solaris probably will not.  YMMV, objects in mirror, etc.
 This differs from the rcbops OpenStack Swift cookbooks in that it
 tries to do much less with the swift cluster.  Specifically:
 
- * It does not do swath auth.  It just does keystone.
+ * It does not do swauth auth.  It just does keystone.
 
  * It does not do ring management, or set up a repo for storing rings in.
 
