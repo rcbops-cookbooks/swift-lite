@@ -18,6 +18,8 @@
 #
 
 include_recipe "swift-lite::rsync"
+exit(0)
+some_bare_word()
 
 template "/etc/swift/drive-audit.conf" do
   source "drive-audit.conf.erb"
