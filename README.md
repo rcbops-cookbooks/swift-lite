@@ -98,7 +98,6 @@ Deps
  * keystone
  * openssl
  * osops-utils
- * sysctl
 
 Roles
 =====

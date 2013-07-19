@@ -58,44 +58,18 @@ default["swift"]["services"]["proxy"]["scheme"] = "http"                    # no
 default["swift"]["services"]["proxy"]["network"] = "swift-proxy"           # node_attribute (inherited from cluster?)
 default["swift"]["services"]["proxy"]["port"] = 8080                        # node_attribute (inherited from cluster?)
 default["swift"]["services"]["proxy"]["path"] = "/v1/AUTH_%(tenant_id)s"                       # node_attribute
-default["swift"]["services"]["proxy"]["sysctl"] = {
-  "net.ipv4.tcp_tw_recycle" => "1",
-  "net.ipv4.tcp_tw_reuse" => "1",
-  "net.ipv4.ip_local_port_range" => "1024 61000",
-  "net.ipv4.tcp_syncookies" => 0
-}
 
-free_memory = node["memory"]["free"].to_i
 
 default["swift"]["services"]["object-server"]["network"] = "swift-storage"          # node_attribute (inherited from cluster?)
 default["swift"]["services"]["object-server"]["port"] = 6000                # node_attribute (inherited from cluster?)
-default["swift"]["services"]["object-server"]["sysctl"] = {
-  "net.ipv4.tcp_tw_recycle" => "1",
-  "net.ipv4.tcp_tw_reuse" => "1",
-  "net.ipv4.ip_local_port_range" => "1024 61000",
-  "net.ipv4.tcp_syncookies" => "0",
-  "vm.min_free_kbytes" => (free_memory/2 > 1048576) ? 1048576 : (free_memory/2).to_i
-}
+
 
 default["swift"]["services"]["container-server"]["network"] = "swift-storage"       # node_attribute (inherited from cluster?)
 default["swift"]["services"]["container-server"]["port"] = 6001             # node_attribute (inherited from cluster?)
-default["swift"]["services"]["container-server"]["sysctl"] = {
-  "net.ipv4.tcp_tw_recycle" => "1",
-  "net.ipv4.tcp_tw_reuse" => "1",
-  "net.ipv4.ip_local_port_range" => "1024 61000",
-  "net.ipv4.tcp_syncookies" => "0",
-  "vm.min_free_kbytes" => (free_memory/2 > 1048576) ? 1048576 : (free_memory/2).to_i
-}
+
 
 default["swift"]["services"]["account-server"]["network"] = "swift-storage"         # node_attribute (inherited from cluster?)
 default["swift"]["services"]["account-server"]["port"] = 6002               # node_attribute (inherited from cluster?)
-default["swift"]["services"]["account-server"]["sysctl"] = {
-  "net.ipv4.tcp_tw_recycle" => "1",
-  "net.ipv4.tcp_tw_reuse" => "1",
-  "net.ipv4.ip_local_port_range" => "1024 61000",
-  "net.ipv4.tcp_syncookies" => "0",
-  "vm.min_free_kbytes" => (free_memory/2 > 1048576) ? 1048576 : (free_memory/2).to_i
-}
 
 default["swift"]["services"]["ring-repo"]["network"] = "swift-storage"              # node_attribute (inherited from cluster?)
 
