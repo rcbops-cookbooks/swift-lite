@@ -17,6 +17,8 @@
 # limitations under the License.
 #
 
+include_recipe "swift-lite::common"
+
 storage = %w{ swift-account-servers swift-container-servers swift-object-servers }
 everyone = Array.new(storage).push("swift-proxy-servers")
 
