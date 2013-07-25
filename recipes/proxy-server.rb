@@ -70,7 +70,7 @@ end.join(",")
 if swift_settings.has_key?("keystone_endpoint")
   keystone_auth_uri = swift_settings["keystone_endpoint"]
 else
-  ks_admin = get_access_endpoint("keystone-api", "keystone", "admin-api")
+  ks_admin = get_access_endpoint(node["keystone"]["api_role"], "keystone", "admin-api")
   keystone_auth_uri = ks_admin.uri
 end
 
