@@ -15,6 +15,8 @@ issue, along with any relevant log/command/error output.  If logfiles
 are extremely long, please place the relevant portion into the issue
 description, and link to a gist containing the entire logfile
 
+Please see the [contribution guidelines](CONTRIBUTING.md) for more information about contributing to this cookbook.
+
 Description
 ===========
 
