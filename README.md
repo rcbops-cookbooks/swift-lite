@@ -186,9 +186,12 @@ extened) are in contrib/roles.
 License and Author
 ==================
 
-Author:: Ron Pedde (<ron.pedde@rackspace.com>)
-Author:: Will Kelly (<william.kelly@rackspace.com>)
-Author:: Chris Laco (<chris.laco@rackspace.com>)
+Author:: Ron Pedde (<ron.pedde@rackspace.com>)  
+Author:: Will Kelly (<william.kelly@rackspace.com>)  
+Author:: Chris Laco (<chris.laco@rackspace.com>)  
+Author:: Andy McCrae (<andrew.mccrae@rackspace.co.uk>)  
+Author:: Hugh Saunders (<hugh.saunders@rackspace.co.uk>)  
+Author:: Marcelo Martins (<marcelo.martins@rackspace.com>)  
 
 Copyright:: 2012, 2013 Rackspace US, Inc.
 
