@@ -16,7 +16,7 @@ recipe            "swift-lite::ntp", "Configures ntp on the nodes to use the clu
   supports os
 end
 
-%w{ dsh openssl osops-utils memcached-openstack ntp }.each do |dep|
+%w{ dsh openssl osops-utils memcached-openstack ntp cron }.each do |dep|
   depends dep
 end
 
