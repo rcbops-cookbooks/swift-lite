@@ -101,7 +101,7 @@ template "/etc/swift/object-server.conf" do
   notifies :restart, "service[swift-object-auditor]", :immediately
 end
 
-cron "swift-recon" do
+cron_d "swift-recon" do
   minute "*/5"
   command "swift-recon-cron /etc/swift/object-server.conf"
   user "swift"
