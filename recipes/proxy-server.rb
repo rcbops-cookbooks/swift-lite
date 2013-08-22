@@ -20,6 +20,9 @@ include_recipe "swift-lite::common"
 include_recipe "memcached-openstack"
 include_recipe "osops-utils"
 
+# fix memcache
+resources("service[memcached]").action :enable
+
 # find the node with the service password
 swift_settings = node["swift"] unless get_settings_by_recipe("swift-lite::setup", "swift") != nil
 platform_options = node["swift"]["platform"]
