@@ -21,11 +21,14 @@ if node["swift"]["ntp"]["servers"].empty?
   role = node["swift"]["ntp"]["role"]
   network = node["swift"]["ntp"]["network"]
 
+  my_ip = get_ip_for_net(network, node)
+
   node.default["swift"]["ntp"]["servers"] =
-    Chef::Recipe::IPManagement.get_ips_for_role(role, network, node)
+    Chef::Recipe::IPManagement.get_ips_for_role(role, network, node) - [my_ip]
 end
 
-node.default["ntp"]["servers"] = node["swift"]["ntp"]["servers"]
+if not node["swift"]["ntp"]["servers"].empty?
+  node.default["ntp"]["servers"] = node["swift"]["ntp"]["servers"]
+end
 
 include_recipe "ntp::default"
-
