@@ -35,6 +35,7 @@ execute "swift-storage-dsh-group" do
   cwd "/home/#{username}/.dsh/group"
   command "cat #{storage.join(' ')} | sort | uniq > swift-storage"
   user username
+  group username
 end
 
 execute "swift-dsh-group" do
@@ -43,4 +44,5 @@ execute "swift-dsh-group" do
   cwd "/home/#{username}/.dsh/group"
   command "cat #{everyone.join(' ')} | sort | uniq > swift"
   user username
+  group username
 end
