@@ -101,12 +101,6 @@ template "/etc/swift/object-server.conf" do
   notifies :restart, "service[swift-object-auditor]", :immediately
 end
 
-cron_d "swift-recon" do
-  minute "*/5"
-  command "swift-recon-cron /etc/swift/object-server.conf"
-  user "swift"
-end
-
 dsh_group "swift-object-servers" do
   user node["swift"]["dsh"]["user"]
   network node["swift"]["dsh"]["network"]
