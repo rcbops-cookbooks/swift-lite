@@ -26,12 +26,6 @@ template "/etc/swift/drive-audit.conf" do
   mode "0600"
 end
 
-cron_d "drive-audit" do
-  hour node["swift"]["audit_hour"]
-  minute "10"
-  command "swift-drive-audit /etc/swift/drive-audit.conf"
-end
-
 directory "/var/cache/swift" do
   group "swift"
   owner "swift"
