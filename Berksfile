@@ -11,3 +11,4 @@ cookbook "keystone", git: "git://github.com/rcbops-cookbooks/keystone", branch: 
 cookbook "mysql-openstack", git: "git://github.com/rcbops-cookbooks/mysql-openstack", branch: "v4.1.2"
 cookbook "sysctl", git: "git://github.com/rcbops-cookbooks/sysctl", branch: "v4.1.2"
 cookbook "keepalived", git: "git://github.com/rcbops-cookbooks/keepalived", branch: "v4.1.2"
+cookbook "memcached", "1.4.0"
