@@ -105,3 +105,5 @@ dsh_group "swift-object-servers" do
   user node["swift"]["dsh"]["user"]
   network node["swift"]["dsh"]["network"]
 end
+
+tag node["swift"]["tags"]["object-server"]

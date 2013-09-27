@@ -18,13 +18,13 @@
 
 # if someone doesn't set these explicitly, let's find the ntp server
 if node["swift"]["ntp"]["servers"].empty?
-  role = node["swift"]["ntp"]["role"]
+  tag = node["swift"]["tags"]["management-server"]
   network = node["swift"]["ntp"]["network"]
 
   my_ip = get_ip_for_net(network, node)
 
   node.default["swift"]["ntp"]["servers"] =
-    Chef::Recipe::IPManagement.get_ips_for_role(role, network, node) - [my_ip]
+    Chef::Recipe::IPManagement.get_ips_for_role(tag, network, node, :order => [:tag]) - [my_ip]
 end
 
 if not node["swift"]["ntp"]["servers"].empty?
