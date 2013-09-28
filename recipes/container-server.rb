@@ -101,3 +101,5 @@ dsh_group "swift-container-servers" do
   user node["swift"]["dsh"]["user"]
   network node["swift"]["dsh"]["network"]
 end
+
+tag node["swift"]["tags"]["container-server"]

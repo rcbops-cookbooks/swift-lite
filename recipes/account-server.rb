@@ -99,3 +99,5 @@ dsh_group "swift-account-servers" do
   user node["swift"]["dsh"]["user"]
   network node["swift"]["dsh"]["network"]
 end
+
+tag node["swift"]["tags"]["account-server"]

@@ -22,11 +22,16 @@ default["swift"]["dsh"]["user"]["name"] = "swiftops"
 default["swift"]["dsh"]["admin_user"]["name"] = "swiftops"
 default["swift"]["dsh"]["network"] = "swift-management"
 
+# swift node tagging
+default["swift"]["tags"]["management-server"] = "swift-management-server"
+default["swift"]["tags"]["proxy-server"] = "swift-proxy-server"
+default["swift"]["tags"]["account-server"] = "swift-account-server"
+default["swift"]["tags"]["container-server"] = "swift-countainer-server"
+default["swift"]["tags"]["object-server"] = "swift-object-server"
+
 # swift ntp
 default["swift"]["ntp"]["servers"] = []
-default["swift"]["ntp"]["role"] = "swift-lite-ntp"
 default["swift"]["ntp"]["network"] = "swift-management"
-
 
 # proxy service tuning
 default["swift"]["proxy"]["pipeline"] = "catch_errors healthcheck cache ratelimit authtoken keystoneauth proxy-server"
