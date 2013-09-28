@@ -21,7 +21,7 @@
     "keystone": {
       "locked_version": "1.0.20",
       "git": "git://github.com/rcbops-cookbooks/keystone",
-      "ref": "f82253de6b104ab76be53bc85bae773d4fe1fc00"
+      "ref": "029329fb78e4443b6cd475a3872d2de9dfd94b82"
     },
     "mysql-openstack": {
       "locked_version": "1.0.14",
