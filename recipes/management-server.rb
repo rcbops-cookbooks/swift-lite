@@ -46,3 +46,5 @@ execute "swift-dsh-group" do
   user username
   group username
 end
+
+tag node["swift"]["tags"]["management-server"]

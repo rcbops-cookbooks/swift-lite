@@ -111,3 +111,5 @@ dsh_group "swift-proxy-servers" do
   user node["swift"]["dsh"]["user"]
   network node["swift"]["dsh"]["network"]
 end
+
+tag node["swift"]["tags"]["proxy-server"]
