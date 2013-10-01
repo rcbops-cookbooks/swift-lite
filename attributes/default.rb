@@ -34,25 +34,24 @@ default["swift"]["ntp"]["servers"] = []
 default["swift"]["ntp"]["network"] = "swift-management"
 
 # proxy service tuning
-default["swift"]["proxy"]["pipeline"] = "catch_errors healthcheck cache ratelimit authtoken keystoneauth proxy-server"
-default["swift"]["proxy"]["log_facility"] = "LOG_LOCAL0"
-default["swift"]["proxy"]["operator_roles"] = "admin, Member"
-default["swift"]["proxy"]["workers"] = [node["cpu"]["total"] -1 ,1].max
+#
+# This takes proxy-server.conf settings in hashified format.  Please
+# see the sample proxy-server.conf files distributed by the swift-proxy
+# or the openstack documentation for more information on possible settings
+#
+default["swift"]["proxy"]["config"]["DEFAULT"]["workers"] = [node["cpu"]["total"] - 1, 1].max
 
 # account service tuning
-default["swift"]["account"]["pipeline"] = "healthcheck recon account-server"
-default["swift"]["account"]["log_facility"] = "LOG_LOCAL0"
-default["swift"]["account"]["workers"] = 2
+#
+# Like the proxy config blocks, this can be modified in direct hashified format.
+#
+default["swift"]["account"]["config"]["DEFAULT"]["workers"] = 6
 
 # container service tuning
-default["swift"]["container"]["pipeline"] = "healthcheck recon container-server"
-default["swift"]["container"]["log_facility"] = "LOG_LOCAL0"
-default["swift"]["container"]["workers"] = 2
+default["swift"]["container"]["config"]["DEFAULT"]["workers"] = 6
 
 # object service tuning
-default["swift"]["object"]["pipeline"] = "healthcheck recon object-server"
-default["swift"]["object"]["log_facility"] = "LOG_LOCAL0"
-default["swift"]["object"]["workers"] = 2
+default["swift"]["object"]["config"]["DEFAULT"]["workers"] = 8
 
 
 # keystone information

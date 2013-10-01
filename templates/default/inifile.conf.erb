@@ -1,0 +1,9 @@
+# This file is managed by chef.  Do not edit.
+
+<% @config_options.keys.sort.each do |section| -%>
+[<%= section %>]
+<% @config_options[section].keys.sort.each do |key| -%>
+<%= key %> = <%= @config_options[section][key] %>
+<% end %>
+
+<% end %>
