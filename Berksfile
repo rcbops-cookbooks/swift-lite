@@ -12,3 +12,4 @@ cookbook "mysql-openstack", git: "git://github.com/rcbops-cookbooks/mysql-openst
 cookbook "sysctl", git: "git://github.com/rcbops-cookbooks/sysctl", branch: "master"
 cookbook "keepalived", git: "git://github.com/rcbops-cookbooks/keepalived", branch: "master"
 cookbook "memcached", "1.4.0"
+cookbook "ntp", git: "git://github.com/opscode-cookbooks/ntp", branch: "master"
