@@ -17,6 +17,8 @@
 # limitations under the License.
 #
 
+tag node["swift"]["tags"]["management-server"]
+
 include_recipe "swift-lite::common"
 
 storage = %w{ swift-account-servers swift-container-servers swift-object-servers }
@@ -46,5 +48,3 @@ execute "swift-dsh-group" do
   user username
   group username
 end
-
-tag node["swift"]["tags"]["management-server"]

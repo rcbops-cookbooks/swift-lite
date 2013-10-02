@@ -16,6 +16,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+tag node["swift"]["tags"]["proxy-server"]
+
 include_recipe "swift-lite::common"
 include_recipe "memcached-openstack"
 include_recipe "osops-utils"
@@ -189,5 +191,3 @@ dsh_group "swift-proxy-servers" do
   user node["swift"]["dsh"]["user"]
   network node["swift"]["dsh"]["network"]
 end
-
-tag node["swift"]["tags"]["proxy-server"]
