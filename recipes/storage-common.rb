@@ -17,6 +17,7 @@
 # limitations under the License.
 #
 
+include_recipe "swift-lite::common"
 include_recipe "swift-lite::rsync"
 
 template "/etc/swift/drive-audit.conf" do
