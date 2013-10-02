@@ -17,6 +17,8 @@
 # limitations under the License.
 #
 
+tag node["swift"]["tags"]["object-server"]
+
 include_recipe "swift-lite::common"
 include_recipe "swift-lite::storage-common"
 
@@ -155,5 +157,3 @@ dsh_group "swift-object-servers" do
   user node["swift"]["dsh"]["user"]
   network node["swift"]["dsh"]["network"]
 end
-
-tag node["swift"]["tags"]["object-server"]
