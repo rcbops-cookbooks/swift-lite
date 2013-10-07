@@ -27,13 +27,13 @@ platform_options["swift_packages"].each do |pkg|
   end
 end
 
-# if we've specified a UID, we'll pre-create the user so package
-# ordering doesn't horse it up.  Otherwise, let the package go ahead
-# and add the user
+# Configure uid if we've specifid one and make sure the user has a shell for dsh
 user "swift" do
-  uid node["swift"]["uid"]
-  # shell "/bin/false"
-  only_if { node["swift"].has_key?("uid") }
+  if node["swift"].has_key?("uid")
+    uid node["swift"]["uid"]
+  end
+  shell "/bin/bash"
+  action :modify
 end
 
 directory "/etc/swift" do
@@ -51,13 +51,6 @@ template "/etc/swift/swift.conf" do
   mode "0700"
   variables("hash_path_suffix" => node["swift"]["swift_hash_suffix"],
             "hash_path_prefix" => node["swift"]["swift_hash_prefix"])
-  only_if "/usr/bin/id swift"
-end
-
-# need a shell to dsh, among other things
-user "swift" do
-  shell "/bin/bash"
-  action :modify
   only_if "/usr/bin/id swift"
 end
 
