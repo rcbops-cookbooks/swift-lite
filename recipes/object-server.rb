@@ -82,7 +82,6 @@ end
 end
 
 object_endpoint = get_bind_endpoint("swift","object-server")
-Chef::Log.info("object endpoint: #{PP.pp(object_endpoint,dump='')}")
 
 # For more configurable options and information please check either
 # object-server.conf manpage or object-server.conf-sample provided
