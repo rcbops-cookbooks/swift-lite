@@ -70,11 +70,18 @@ end
 %w{swift-container swift-container-auditor swift-container-replicator swift-container-updater}.each do |svc|
   service_name=platform_options["service_prefix"] + svc + platform_options["service_suffix"]
 
+  service "enable-#{svc}" do
+    service_name service_name
+    provider platform_options["service_provider"]
+    supports :status => true, :restart => true
+    action :enable
+  end
+
   service svc do
     service_name service_name
     provider platform_options["service_provider"]
     supports :status => true, :restart => true
-    action [:enable, :start]
+    action :start
     only_if "[ -e /etc/swift/container-server.conf ] && [ -e /etc/swift/container.ring.gz ]"
   end
 end
