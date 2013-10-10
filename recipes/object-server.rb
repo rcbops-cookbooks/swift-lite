@@ -70,13 +70,22 @@ end
 %w{swift-object swift-object-replicator swift-object-auditor swift-object-updater}.each do |svc|
   service_name=platform_options["service_prefix"] + svc + platform_options["service_suffix"]
 
+  service "enable-#{svc}" do
+    service_name service_name
+    provider platform_options["service_provider"]
+    # the default ubuntu provider uses invoke-rc.d, which apparently is
+    # status-illy broken in ubuntu
+    supports :status => false, :restart => true
+    action :enable
+  end
+
   service svc do
     service_name service_name
     provider platform_options["service_provider"]
     # the default ubuntu provider uses invoke-rc.d, which apparently is
     # status-illy broken in ubuntu
     supports :status => false, :restart => true
-    action [:enable, :start]
+    action :start
     only_if "[ -e /etc/swift/object-server.conf ] && [ -e /etc/swift/object.ring.gz ]"
   end
 end

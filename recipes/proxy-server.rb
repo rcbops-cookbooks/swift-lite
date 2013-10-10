@@ -55,12 +55,20 @@ directory "/var/cache/swift" do
 end
 
 swift_proxy_service = platform_options["service_prefix"] + "swift-proxy" + platform_options["service_suffix"]
+
+service "enable-swift-proxy" do
+  service_name swift_proxy_service
+  provider platform_options["service_provider"]
+  supports :status => true, :restart => true
+  action :enable
+end
+
 service "swift-proxy" do
   # openstack-swift-proxy.service on fedora-17, swift-proxy on ubuntu
   service_name swift_proxy_service
   provider platform_options["service_provider"]
   supports :status => true, :restart => true
-  action [ :enable, :start ]
+  action :start
   only_if "[ -e /etc/swift/proxy-server.conf ] && [ -e /etc/swift/object.ring.gz ]"
 end
 
@@ -190,4 +198,15 @@ end
 dsh_group "swift-proxy-servers" do
   user node["swift"]["dsh"]["user"]
   network node["swift"]["dsh"]["network"]
+end
+
+# epel: no thanks. this is on the management node so nuke it
+file "/etc/swift/object-expirer.conf" do
+  action :delete
+  only_if { node.platform_family?("rhel") }
+end
+
+execute "chkconfig --del openstack-swift-object-expirer" do
+  action :run
+  only_if { node.platform_family?("rhel") }
 end
