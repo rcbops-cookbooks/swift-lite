@@ -69,11 +69,19 @@ end
 
 %w{swift-account swift-account-auditor swift-account-reaper swift-account-replicator}.each do |svc|
   service_name = platform_options["service_prefix"] + svc + platform_options["service_suffix"]
+
+  service "enable-#{svc}" do
+    service_name service_name
+    provider platform_options["service_provider"]
+    supports :status => true, :restart => true
+    action :enable
+  end
+
   service svc do
     service_name service_name
     provider platform_options["service_provider"]
     supports :status => true, :restart => true
-    action [:enable, :start]
+    action :start
     only_if "[ -e /etc/swift/account-server.conf ] && [ -e /etc/swift/account.ring.gz ]"
   end
 end
