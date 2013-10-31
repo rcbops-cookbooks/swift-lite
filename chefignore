@@ -50,6 +50,7 @@ a.out
 spec/*
 spec/fixtures/*
 test/*
+build/*
 features/*
 Guardfile
 Procfile
@@ -90,6 +91,7 @@ Strainerfile
 ###########
 .vagrant
 Vagrantfile
+Vagranfile.d
 
 # Travis #
 ##########
