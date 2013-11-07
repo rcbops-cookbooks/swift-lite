@@ -1,0 +1,88 @@
+{
+  "sources": {
+    "swift-lite": {
+      "path": "."
+    },
+    "dsh": {
+      "locked_version": "4.2.0",
+      "git": "git://github.com/rcbops-cookbooks/dsh",
+      "ref": "4456b884c328152e566efaa53c900a00032da4c9"
+    },
+    "osops-utils": {
+      "locked_version": "4.2.0",
+      "git": "git://github.com/rcbops-cookbooks/osops-utils",
+      "ref": "49c11873af92e2b9d2d648ddfd11067c344e53c2"
+    },
+    "memcached-openstack": {
+      "locked_version": "4.2.0",
+      "git": "git://github.com/rcbops-cookbooks/memcached-openstack",
+      "ref": "9932ad9ed4664383bf2f15bab3e349aa420b0f74"
+    },
+    "keystone": {
+      "locked_version": "4.2.0",
+      "git": "git://github.com/rcbops-cookbooks/keystone",
+      "ref": "097c39a4fd7e6269a85c0f182b0f5f87fc07eafe"
+    },
+    "mysql-openstack": {
+      "locked_version": "4.2.0",
+      "git": "git://github.com/rcbops-cookbooks/mysql-openstack",
+      "ref": "ad3a43b113fe784e697499d280eb2d91fe995da5"
+    },
+    "sysctl": {
+      "locked_version": "4.2.0",
+      "git": "git://github.com/rcbops-cookbooks/sysctl",
+      "ref": "015725d5f974ef859f85181928452feacc185c98"
+    },
+    "keepalived": {
+      "locked_version": "4.2.0",
+      "git": "git://github.com/rcbops-cookbooks/keepalived",
+      "ref": "c097a5fa68ac6772116caee34fc0ce7fb7df71fa"
+    },
+    "memcached": {
+      "locked_version": "1.4.0"
+    },
+    "mysql": {
+      "locked_version": "3.0.5",
+      "git": "git://github.com/opscode-cookbooks/mysql",
+      "ref": "6ec4bda007c8d82e698dfa8112a2343ce333801e"
+    },
+    "ntp": {
+      "locked_version": "1.5.2",
+      "git": "git://github.com/opscode-cookbooks/ntp",
+      "ref": "72ba36f411c5bed1d0f755c4b34af31d46b4060a"
+    },
+    "openssl": {
+      "locked_version": "1.1.0"
+    },
+    "cron": {
+      "locked_version": "1.2.6"
+    },
+    "apt": {
+      "locked_version": "2.3.0"
+    },
+    "yum": {
+      "locked_version": "2.4.0"
+    },
+    "database": {
+      "locked_version": "1.4.0"
+    },
+    "postgresql": {
+      "locked_version": "3.1.0"
+    },
+    "build-essential": {
+      "locked_version": "1.4.2"
+    },
+    "aws": {
+      "locked_version": "0.101.4"
+    },
+    "xfs": {
+      "locked_version": "1.1.0"
+    },
+    "apache2": {
+      "locked_version": "1.7.0"
+    },
+    "runit": {
+      "locked_version": "1.2.0"
+    }
+  }
+}
