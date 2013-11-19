@@ -17,6 +17,8 @@
 # limitations under the License.
 #
 
+tag node["swift"]["tags"]["object-server"]
+
 include_recipe "swift-lite::common"
 include_recipe "swift-lite::storage-common"
 
@@ -68,32 +70,90 @@ end
 %w{swift-object swift-object-replicator swift-object-auditor swift-object-updater}.each do |svc|
   service_name=platform_options["service_prefix"] + svc + platform_options["service_suffix"]
 
+  service "enable-#{svc}" do
+    service_name service_name
+    provider platform_options["service_provider"]
+    # the default ubuntu provider uses invoke-rc.d, which apparently is
+    # status-illy broken in ubuntu
+    supports :status => false, :restart => true
+    action :enable
+  end
+
   service svc do
     service_name service_name
     provider platform_options["service_provider"]
     # the default ubuntu provider uses invoke-rc.d, which apparently is
     # status-illy broken in ubuntu
     supports :status => false, :restart => true
-    action [:enable, :start]
+    action :start
     only_if "[ -e /etc/swift/object-server.conf ] && [ -e /etc/swift/object.ring.gz ]"
   end
 end
 
 object_endpoint = get_bind_endpoint("swift","object-server")
-Chef::Log.info("object endpoint: #{PP.pp(object_endpoint,dump='')}")
+
+# For more configurable options and information please check either
+# object-server.conf manpage or object-server.conf-sample provided
+# within the distributed package
+default_options = {
+  "DEFAULT" => {
+    "bind_ip" => "0.0.0.0",
+    "bind_port" => "6000",
+    "backlog" => "4096",
+    "workers" => "8",
+    "disable_fallocate" => "false",
+    "fallocate_reserve" => "0",
+    "user" => "swift",
+    "devices" => "/srv/node",
+    "swift_dir" => "/etc/swift"
+  },
+  "pipeline:main" => {
+    "pipeline" => "healthcheck recon object-server"
+  },
+  "app:object-server" => {
+    "use" => "egg:swift#object",
+    "log_facility" => "LOG_LOCAL1",
+    "mb_per_sync" => "64"
+  },
+  "filter:healthcheck" => {
+    "use" => "egg:swift#healthcheck"
+  },
+  "filter:recon" => {
+    "use" => "egg:swift#recon",
+    "log_facility" => "LOG_LOCAL2",
+    "recon_cache_path" => "/var/cache/swift",
+    "recon_lock_path" => "/var/lock/swift"
+  },
+  "object-replicator" => {
+    "log_facility" => "LOG_LOCAL2",
+    "concurrency" => "6",
+    "rsync_io_timeout" => "30",
+    "recon_enable" => "yes",
+    "recon_cache_path" => "/var/cache/swift"
+  },
+  "object-updater" => {
+    "log_facility" => "LOG_LOCAL2",
+    "concurrency" => "3",
+    "node_timeout" => "60",
+    "conn_timeout" => "5",
+    "recon_enable" => "yes",
+    "recon_cache_path" => "/var/cache/swift"
+  },
+  "object-auditor" => {
+    "log_facility" => "LOG_LOCAL2",
+    "recon_enable" => "yes",
+    "recon_cache_path" => "/var/cache/swift"
+  }
+}
 
 template "/etc/swift/object-server.conf" do
-  source "object-server.conf.erb"
+  source "inifile.conf.erb"
   owner "swift"
   group "swift"
   mode "0600"
-  variables("bind_ip" => object_endpoint["host"],
-            "bind_port" => object_endpoint["port"],
-            "workers" => node["swift"]["object"]["workers"],
-            "log_facility" => node["swift"]["object"]["log_facility"],
-            "pipeline" => node["swift"]["object"]["pipeline"])
-
-
+  variables("config_options" => default_options.merge(
+      node["swift"]["object"]["config"] || {}) { |k, x, y| x.merge(y) }
+  )
 
   notifies :restart, "service[swift-object]", :immediately
   notifies :restart, "service[swift-object-replicator]", :immediately

@@ -17,6 +17,8 @@
 # limitations under the License.
 #
 
+tag node["swift"]["tags"]["account-server"]
+
 include_recipe "swift-lite::common"
 include_recipe "swift-lite::storage-common"
 
@@ -67,27 +69,78 @@ end
 
 %w{swift-account swift-account-auditor swift-account-reaper swift-account-replicator}.each do |svc|
   service_name = platform_options["service_prefix"] + svc + platform_options["service_suffix"]
+
+  service "enable-#{svc}" do
+    service_name service_name
+    provider platform_options["service_provider"]
+    supports :status => true, :restart => true
+    action :enable
+  end
+
   service svc do
     service_name service_name
     provider platform_options["service_provider"]
     supports :status => true, :restart => true
-    action [:enable, :start]
+    action :start
     only_if "[ -e /etc/swift/account-server.conf ] && [ -e /etc/swift/account.ring.gz ]"
   end
 end
 
 account_endpoint = get_bind_endpoint("swift","account-server")
 
+# For more configurable options and information please check either
+# account-server.conf manpage or account-server.conf-sample provided
+# within the distributed package
+default_options = {
+  "DEFAULT" => {
+    "bind_ip" => "0.0.0.0",
+    "bind_port" => 6002,
+    "workers" => 6,
+    "user" => "swift",
+    "swift_dir" => "/etc/swift",
+    "devices" => "/srv/node",
+    "db_preallocation" => "off"
+  },
+  "pipeline:main" => {
+    "pipeline" => "healthcheck recon account-server"
+  },
+  "app:account-server" => {
+    "use" => "egg:swift#account",
+    "log_facility" => "LOG_LOCAL1"
+  },
+  "filter:healthcheck" => {
+    "use" => "egg:swift#healthcheck"
+  },
+  "filter:recon" => {
+    "use" => "egg:swift#recon",
+    "log_facility" => "LOG_LOCAL2",
+    "recon_cache_path" => "/var/cache/swift",
+    "recon_lock_path" => "/var/lock/swift"
+  },
+  "account-replicator" => {
+    "log_facility" => "LOG_LOCAL2",
+    "per_diff" => 10000,
+    "concurrency" => 4,
+  },
+  "account-auditor" => {
+    "log_facility" => "LOG_LOCAL2",
+    "interval" => 1800
+  },
+  "account-reaper" => {
+    "log_facility" => "LOG_LOCAL2",
+    "concurrency" => 2,
+    "delay_reaping" => 604800
+  }
+}
+
 template "/etc/swift/account-server.conf" do
-  source "account-server.conf.erb"
+  source "inifile.conf.erb"
   owner "swift"
   group "swift"
   mode "0600"
-  variables("bind_ip" => account_endpoint["host"],
-            "bind_port" => account_endpoint["port"],
-            "pipeline" => node["swift"]["account"]["pipeline"],
-            "workers" => node["swift"]["account"]["workers"],
-            "log_facility" => node["swift"]["account"]["log_facility"])
+  variables("config_options" => default_options.merge(
+      node["swift"]["account"]["config"] || {}) { |k, x, y| x.merge(y) }
+  )
 
   notifies :restart, "service[swift-account]", :immediately
   notifies :restart, "service[swift-account-auditor]", :immediately

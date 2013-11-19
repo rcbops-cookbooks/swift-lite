@@ -1,5 +1,4 @@
 .vagrant
-Berksfile.lock
 *~
 *#
 .#*
@@ -7,11 +6,11 @@ Berksfile.lock
 .*.sw[a-z]
 *.un~
 /cookbooks
-
+Berksfile.lock
 # Bundler
-Gemfile.lock
 bin/*
 .bundle/*
 
 .kitchen/
 .kitchen.local.yml
+.ruby-version

@@ -17,9 +17,10 @@
 # limitations under the License.
 #
 
+tag node["swift"]["tags"]["container-server"]
+
 include_recipe "swift-lite::common"
 include_recipe "swift-lite::storage-common"
-
 
 platform_options = node["swift"]["platform"]
 
@@ -69,27 +70,79 @@ end
 %w{swift-container swift-container-auditor swift-container-replicator swift-container-updater}.each do |svc|
   service_name=platform_options["service_prefix"] + svc + platform_options["service_suffix"]
 
+  service "enable-#{svc}" do
+    service_name service_name
+    provider platform_options["service_provider"]
+    supports :status => true, :restart => true
+    action :enable
+  end
+
   service svc do
     service_name service_name
     provider platform_options["service_provider"]
     supports :status => true, :restart => true
-    action [:enable, :start]
+    action :start
     only_if "[ -e /etc/swift/container-server.conf ] && [ -e /etc/swift/container.ring.gz ]"
   end
 end
 
-container_endpoint = get_bind_endpoint("swift","container-server")
+container_endpoint = get_bind_endpoint("swift", "container-server")
+
+# For more configurable options and information please check either
+# account-server.conf manpage or account-server.conf-sample provided
+# within the distributed package
+default_options = {
+  "DEFAULT" => {
+    "bind_ip" => "0.0.0.0",
+    "bind_port" => "6001",
+    "workers" => "6",
+    "user" => "swift",
+    "swift_dir" => "/etc/swift",
+    "devices" => "/srv/node",
+    "db_preallocation" => "off"
+  },
+  "pipeline:main" => {
+    "pipeline" => "healthcheck recon container-server"
+  },
+  "app:container-server" => {
+    "use" => "egg:swift#container",
+    "log_facility" => "LOG_LOCAL1"
+  },
+  "filter:healthcheck" => {
+    "use" => "egg:swift#healthcheck"
+  },
+  "filter:recon" => {
+    "use" => "egg:swift#recon",
+    "log_facility" => "LOG_LOCAL2",
+    "recon_cache_path" => "/var/cache/swift",
+    "recon_lock_path" => "/var/lock/swift"
+  },
+  "container-replicator" => {
+    "log_facility" => "LOG_LOCAL2",
+    "concurrency" => 6
+  },
+  "container-updater" => {
+    "log_facility" => "LOG_LOCAL2",
+    "concurrency" => "4",
+    "node_timeout" => "15",
+    "conn_timeout" => "5"
+  },
+  "container-auditor" => {
+    "log_facility" => "LOG_LOCAL2",
+    "interval" => 1800
+  },
+  "container-sync" => {
+  }
+}
 
 template "/etc/swift/container-server.conf" do
-  source "container-server.conf.erb"
+  source "inifile.conf.erb"
   owner "swift"
   group "swift"
   mode "0600"
-  variables("bind_ip" => container_endpoint["host"],
-            "bind_port" => container_endpoint["port"],
-            "workers" => node["swift"]["container"]["workers"],
-            "log_facility" => node["swift"]["container"]["log_facility"],
-            "pipeline" => node["swift"]["container"]["pipeline"])
+  variables("config_options" => default_options.merge(
+      node["swift"]["container"]["config"] || {}) { |k, x, y| x.merge(y) }
+  )
 
   notifies :restart, "service[swift-container]", :immediately
   notifies :restart, "service[swift-container-replicator]", :immediately

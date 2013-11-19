@@ -22,32 +22,36 @@ default["swift"]["dsh"]["user"]["name"] = "swiftops"
 default["swift"]["dsh"]["admin_user"]["name"] = "swiftops"
 default["swift"]["dsh"]["network"] = "swift-management"
 
+# swift node tagging
+default["swift"]["tags"]["management-server"] = "swift-management-server"
+default["swift"]["tags"]["proxy-server"] = "swift-proxy-server"
+default["swift"]["tags"]["account-server"] = "swift-account-server"
+default["swift"]["tags"]["container-server"] = "swift-countainer-server"
+default["swift"]["tags"]["object-server"] = "swift-object-server"
+
 # swift ntp
 default["swift"]["ntp"]["servers"] = []
-default["swift"]["ntp"]["role"] = "swift-lite-ntp"
 default["swift"]["ntp"]["network"] = "swift-management"
 
-
 # proxy service tuning
-default["swift"]["proxy"]["pipeline"] = "catch_errors healthcheck cache ratelimit authtoken keystoneauth proxy-server"
-default["swift"]["proxy"]["log_facility"] = "LOG_LOCAL0"
-default["swift"]["proxy"]["operator_roles"] = "admin, Member"
-default["swift"]["proxy"]["workers"] = [node["cpu"]["total"] -1 ,1].max
+#
+# This takes proxy-server.conf settings in hashified format.  Please
+# see the sample proxy-server.conf files distributed by the swift-proxy
+# or the openstack documentation for more information on possible settings
+#
+default["swift"]["proxy"]["config"]["DEFAULT"]["workers"] = [node["cpu"]["total"] - 1, 1].max
 
 # account service tuning
-default["swift"]["account"]["pipeline"] = "healthcheck recon account-server"
-default["swift"]["account"]["log_facility"] = "LOG_LOCAL0"
-default["swift"]["account"]["workers"] = 2
+#
+# Like the proxy config blocks, this can be modified in direct hashified format.
+#
+default["swift"]["account"]["config"]["DEFAULT"]["workers"] = 6
 
 # container service tuning
-default["swift"]["container"]["pipeline"] = "healthcheck recon container-server"
-default["swift"]["container"]["log_facility"] = "LOG_LOCAL0"
-default["swift"]["container"]["workers"] = 2
+default["swift"]["container"]["config"]["DEFAULT"]["workers"] = 6
 
 # object service tuning
-default["swift"]["object"]["pipeline"] = "healthcheck recon object-server"
-default["swift"]["object"]["log_facility"] = "LOG_LOCAL0"
-default["swift"]["object"]["workers"] = 2
+default["swift"]["object"]["config"]["DEFAULT"]["workers"] = 8
 
 
 # keystone information
@@ -78,14 +82,12 @@ case platform
 when "redhat"
   default["swift"]["platform"] = {                      # node_attribute
     "disk_format" => "ext4",
-    "proxy_packages" => ["openstack-swift-proxy", "sudo", "cronie", "python-memcached"],
-    "object_packages" => ["openstack-swift-object", "sudo", "cronie"],
-    "container_packages" => ["openstack-swift-container", "sudo", "cronie"],
-    "account_packages" => ["openstack-swift-account", "sudo", "cronie"],
+    "proxy_packages" => ["openstack-swift-proxy", "python-memcached"],
+    "object_packages" => ["openstack-swift-object", "sudo"],
+    "container_packages" => ["openstack-swift-container"],
+    "account_packages" => ["openstack-swift-account"],
     "swift_packages" => ["openstack-swift", "sudo", "cronie"],
-    "swauth_packages" => ["openstack-swauth", "sudo", "cronie"],
     "rsync_packages" => ["rsync"],
-    "git_packages" => ["xinetd", "git", "git-daemon"],
     "service_prefix" => "openstack-",
     "service_suffix" => "",
     "git_dir" => "/var/lib/git",
@@ -99,14 +101,12 @@ when "redhat"
 when "centos"
   default["swift"]["platform"] = {                      # node_attribute
     "disk_format" => "xfs",
-    "proxy_packages" => ["openstack-swift-proxy", "sudo", "cronie", "python-iso8601", "python-memcached" ],
-    "object_packages" => ["openstack-swift-object", "sudo", "cronie", "python-iso8601" ],
-    "container_packages" => ["openstack-swift-container", "sudo", "cronie", "python-iso8601" ],
-    "account_packages" => ["openstack-swift-account", "sudo", "cronie", "python-iso8601" ],
-    "swift_packages" => ["openstack-swift", "sudo", "cronie", "python-iso8601" ],
-    "swauth_packages" => ["openstack-swauth", "sudo", "cronie", "python-iso8601" ],
+    "proxy_packages" => ["openstack-swift-proxy", "python-memcached" ],
+    "object_packages" => ["openstack-swift-object"],
+    "container_packages" => ["openstack-swift-container"],
+    "account_packages" => ["openstack-swift-account"],
+    "swift_packages" => ["openstack-swift", "sudo", "cronie", "python-iso8601"],
     "rsync_packages" => ["rsync"],
-    "git_packages" => ["xinetd", "git", "git-daemon"],
     "service_prefix" => "openstack-",
     "service_suffix" => "",
     "git_dir" => "/var/lib/git",
@@ -122,9 +122,7 @@ when "fedora"
     "container_packages" => ["openstack-swift-container"],
     "account_packages" => ["openstack-swift-account"],
     "swift_packages" => ["openstack-swift"],
-    "swauth_packages" => ["openstack-swauth"],
     "rsync_packages" => ["rsync"],
-    "git_packages" => ["git", "git-daemon"],
     "service_prefix" => "openstack-",
     "service_suffix" => ".service",
     "git_dir" => "/var/lib/git",
@@ -140,9 +138,7 @@ when "ubuntu"
     "container_packages" => ["swift-container"],
     "account_packages" => ["swift-account", "python-swiftclient"],
     "swift_packages" => ["swift"],
-    "swauth_packages" => ["swauth"],
     "rsync_packages" => ["rsync"],
-    "git_packages" => ["git-daemon-sysvinit"],
     "service_prefix" => "",
     "service_suffix" => "",
     "git_dir" => "/var/cache/git",
