@@ -6,7 +6,7 @@
     "mysql-openstack": {
       "locked_version": "4.2.0",
       "git": "git://github.com/rcbops-cookbooks/mysql-openstack",
-      "ref": "ad3a43b113fe784e697499d280eb2d91fe995da5"
+      "ref": "c97acf1b278eaa34ae716e3368d8b48b881910c7"
     },
     "dsh": {
       "locked_version": "4.2.0",
@@ -16,7 +16,7 @@
     "osops-utils": {
       "locked_version": "4.2.0",
       "git": "git://github.com/rcbops-cookbooks/osops-utils",
-      "ref": "0432e24a71441a602ecaaa96f962567a194d1fb7"
+      "ref": "af1d8d190c697c5f31b7eb95c889ce073d495c2b"
     },
     "sysctl": {
       "locked_version": "4.2.0",
@@ -31,27 +31,27 @@
     "keystone": {
       "locked_version": "4.2.0",
       "git": "git://github.com/rcbops-cookbooks/keystone",
-      "ref": "097c39a4fd7e6269a85c0f182b0f5f87fc07eafe"
+      "ref": "250e4d611fd48259721739f457a21e4151d42069"
     },
     "keepalived": {
-      "locked_version": "4.2.0",
+      "locked_version": "4.2.1",
       "git": "git://github.com/rcbops-cookbooks/keepalived",
-      "ref": "b4b66a18949f605a66669f3d263caa145458c3e7"
+      "ref": "4e1c279cee0e712997a6fe24f7be9f71e0e3df58"
     },
     "apache2": {
-      "locked_version": "1.6.7",
+      "locked_version": "1.8.5",
       "git": "git://github.com/opscode-cookbooks/apache2",
-      "ref": "5e4b354d8e0a541e280be01c7edad0e19040ddba"
+      "ref": "ec9b063554d5d464567c8cd4f03766a3dfcfde12"
     },
     "apt": {
-      "locked_version": "2.1.3",
+      "locked_version": "2.3.1",
       "git": "git://github.com/opscode-cookbooks/apt",
-      "ref": "b1d54bcbc096468bd3103a81da2b6f3467bcf924"
+      "ref": "27a63b72ada97ff716901ee7d6a86315767672e0"
     },
     "aws": {
-      "locked_version": "0.101.7",
+      "locked_version": "1.0.1",
       "git": "git://github.com/opscode-cookbooks/aws",
-      "ref": "f6591635628bfedc69e0f3df58731b028f37d2b8"
+      "ref": "f84de5cccb922f056b0c99a5e3b35328646d95b5"
     },
     "build-essential": {
       "locked_version": "1.4.2",
@@ -59,24 +59,24 @@
       "ref": "7f4d351036f10e7b641e1df137390491d6111669"
     },
     "database": {
-      "locked_version": "1.5.1",
+      "locked_version": "1.5.3",
       "git": "git://github.com/opscode-cookbooks/database",
-      "ref": "472edb7cec69ee72bec8cbba6358ec9e7461d976"
+      "ref": "0137ce6fabe5084fac69bc7aa1600b624c7e7e3f"
     },
     "memcached": {
-      "locked_version": "1.5.1",
+      "locked_version": "1.6.3",
       "git": "git://github.com/opscode-cookbooks/memcached",
-      "ref": "6d9d2967325a456679569a235299cf39dbf7b25e"
+      "ref": "c47c035051fc1f3ecf97ad89a30986fde45e2165"
     },
     "mysql": {
-      "locked_version": "3.0.3",
+      "locked_version": "4.0.5",
       "git": "git://github.com/opscode-cookbooks/mysql",
-      "ref": "eef7e65806e7ff3bdbe148e27c447ef4a8bc3881"
+      "ref": "a5ef5eadd3323553268f1070e9cc3d7dba23c512"
     },
     "ntp": {
-      "locked_version": "1.4.1",
+      "locked_version": "1.5.2",
       "git": "git://github.com/opscode-cookbooks/ntp",
-      "ref": "1fd5503bec5366556f413bf2b9ba3ce0a64b170f"
+      "ref": "72ba36f411c5bed1d0f755c4b34af31d46b4060a"
     },
     "openssl": {
       "locked_version": "1.1.1",
@@ -84,19 +84,19 @@
       "ref": "b9a52cdac76063059ff330e8427758cdeff5ee58"
     },
     "postgresql": {
-      "locked_version": "3.0.5",
+      "locked_version": "3.2.1",
       "git": "git://github.com/opscode-cookbooks/postgresql",
-      "ref": "cacbdd821901a018bdb3829beab2db737db7bc1b"
+      "ref": "cb147ab323f43172ebcbaea0808c5f9f4a3b0402"
     },
     "runit": {
-      "locked_version": "1.2.1",
+      "locked_version": "1.4.1",
       "git": "git://github.com/opscode-cookbooks/runit",
-      "ref": "59f05743565172d679aa7444eef9a9b0655caf63"
+      "ref": "08542db42cda966dbdb4eb4c7e757e8a95178642"
     },
     "yum": {
-      "locked_version": "2.3.3",
+      "locked_version": "2.4.3",
       "git": "git://github.com/opscode-cookbooks/yum",
-      "ref": "883043d3f9c78eb85151c9bc3e938bae149965ad"
+      "ref": "f9e182ee68b7935e5a3de72f1abd078c0d747545"
     },
     "xfs": {
       "locked_version": "1.1.0",
