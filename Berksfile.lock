@@ -3,86 +3,130 @@
     "swift-lite": {
       "path": "."
     },
+    "mysql-openstack": {
+      "locked_version": "4.1.3",
+      "git": "git://github.com/rcbops-cookbooks/mysql-openstack",
+      "ref": "f7259a60bc42364363155f2c548d094463d3d8c7"
+    },
     "dsh": {
       "locked_version": "4.1.3",
       "git": "git://github.com/rcbops-cookbooks/dsh",
-      "ref": "2bd31cfa02fde5b3ed4f99dbfd880406b68c6b88"
+      "ref": "91d6049aa91b19963730202016b313579c391a34"
     },
     "osops-utils": {
       "locked_version": "4.1.3",
       "git": "git://github.com/rcbops-cookbooks/osops-utils",
-      "ref": "94ba55b20d546e6bb6a2790ba1894ed55a180ae8"
-    },
-    "memcached-openstack": {
-      "locked_version": "4.1.3",
-      "git": "git://github.com/rcbops-cookbooks/memcached-openstack",
-      "ref": "cdf246ee959884222e54020314fedcf3e194a382"
-    },
-    "keystone": {
-      "locked_version": "4.1.3",
-      "git": "git://github.com/rcbops-cookbooks/keystone",
-      "ref": "f325c352c35584489e2d9253dae6ef52df6dabc0"
-    },
-    "mysql-openstack": {
-      "locked_version": "4.1.3",
-      "git": "git://github.com/rcbops-cookbooks/mysql-openstack",
-      "ref": "6b6117baf556ec5e8b776170bbb679b568143d18"
+      "ref": "af3aa640349d0da1e9f3ce6627809ca0c75d2b63"
     },
     "sysctl": {
       "locked_version": "4.1.3",
       "git": "git://github.com/rcbops-cookbooks/sysctl",
-      "ref": "fc8b8952d55a3de6554c604b4de7a3cb785681bd"
+      "ref": "6def89c9a9bdef085685f98790eb946cb93e8821"
+    },
+    "memcached-openstack": {
+      "locked_version": "4.1.3",
+      "git": "git://github.com/rcbops-cookbooks/memcached-openstack",
+      "ref": "077c96b1243428c014a9700e9c64a860dbe6047f"
+    },
+    "keystone": {
+      "locked_version": "4.1.3",
+      "git": "git://github.com/rcbops-cookbooks/keystone",
+      "ref": "4954ab1cb29aed60944d92f47d3ec760e0b63c03"
     },
     "keepalived": {
       "locked_version": "4.1.3",
       "git": "git://github.com/rcbops-cookbooks/keepalived",
-      "ref": "f35fd4644a81961af66621547aefbc70c5a38a16"
+      "ref": "c78fc2382992baa1e9ebe08356df92ae10eb70e2"
+    },
+    "apache2": {
+      "locked_version": "1.8.5",
+      "git": "git://github.com/opscode-cookbooks/apache2",
+      "ref": "ec9b063554d5d464567c8cd4f03766a3dfcfde12"
+    },
+    "apt": {
+      "locked_version": "2.1.3",
+      "git": "git://github.com/opscode-cookbooks/apt",
+      "ref": "b1d54bcbc096468bd3103a81da2b6f3467bcf924"
+    },
+    "aws": {
+      "locked_version": "0.101.7",
+      "git": "git://github.com/opscode-cookbooks/aws",
+      "ref": "f6591635628bfedc69e0f3df58731b028f37d2b8"
+    },
+    "build-essential": {
+      "locked_version": "1.4.2",
+      "git": "git://github.com/opscode-cookbooks/build-essential",
+      "ref": "7f4d351036f10e7b641e1df137390491d6111669"
+    },
+    "database": {
+      "locked_version": "1.5.1",
+      "git": "git://github.com/opscode-cookbooks/database",
+      "ref": "472edb7cec69ee72bec8cbba6358ec9e7461d976"
     },
     "memcached": {
-      "locked_version": "1.4.0"
+      "locked_version": "1.5.1",
+      "git": "git://github.com/opscode-cookbooks/memcached",
+      "ref": "6d9d2967325a456679569a235299cf39dbf7b25e"
     },
     "mysql": {
       "locked_version": "3.0.5",
       "git": "git://github.com/opscode-cookbooks/mysql",
-      "ref": "3a876379926a386abf6ef443b5d56e8a1760dc91"
+      "ref": "6ec4bda007c8d82e698dfa8112a2343ce333801e"
     },
     "ntp": {
-      "locked_version": "1.5.1",
+      "locked_version": "1.4.1",
       "git": "git://github.com/opscode-cookbooks/ntp",
-      "ref": "77dbef0e76e9c90dc5c8a90f404d320c6fd3b374"
-    },
-    "runit": {
-      "locked_version": "1.2.0"
-    },
-    "build-essential": {
-      "locked_version": "1.4.2"
-    },
-    "yum": {
-      "locked_version": "2.3.4"
-    },
-    "cron": {
-      "locked_version": "1.2.6"
+      "ref": "1fd5503bec5366556f413bf2b9ba3ce0a64b170f"
     },
     "openssl": {
-      "locked_version": "1.1.0"
-    },
-    "database": {
-      "locked_version": "1.4.0"
+      "locked_version": "1.1.1",
+      "git": "git://github.com/opscode-cookbooks/openssl",
+      "ref": "b9a52cdac76063059ff330e8427758cdeff5ee58"
     },
     "postgresql": {
-      "locked_version": "3.1.0"
+      "locked_version": "3.0.5",
+      "git": "git://github.com/opscode-cookbooks/postgresql",
+      "ref": "cacbdd821901a018bdb3829beab2db737db7bc1b"
     },
-    "apt": {
-      "locked_version": "2.1.1"
+    "runit": {
+      "locked_version": "1.2.1",
+      "git": "git://github.com/opscode-cookbooks/runit",
+      "ref": "59f05743565172d679aa7444eef9a9b0655caf63"
     },
-    "aws": {
-      "locked_version": "0.101.4"
+    "yum": {
+      "locked_version": "2.3.3",
+      "git": "git://github.com/opscode-cookbooks/yum",
+      "ref": "883043d3f9c78eb85151c9bc3e938bae149965ad"
     },
     "xfs": {
-      "locked_version": "1.1.0"
+      "locked_version": "1.1.0",
+      "git": "git://github.com/opscode-cookbooks/xfs",
+      "ref": "18a49fc9c9a434e2a2112751a5bbdafc2dc302b3"
     },
-    "apache2": {
-      "locked_version": "1.7.0"
+    "chef_handler": {
+      "locked_version": "1.1.4",
+      "git": "git://github.com/opscode-cookbooks/chef_handler",
+      "ref": "a702e254833cac60b3f1fbc3ae098850b40572d7"
+    },
+    "cron": {
+      "locked_version": "1.2.6",
+      "git": "git://github.com/opscode-cookbooks/cron",
+      "ref": "7b49524d119111b70315c89bf72623c2bdb155f8"
+    },
+    "dmg": {
+      "locked_version": "2.0.0",
+      "git": "git://github.com/opscode-cookbooks/dmg",
+      "ref": "91424d0929df27f0f7c1d34ceb9852afedf2c827"
+    },
+    "git": {
+      "locked_version": "2.6.0",
+      "git": "git://github.com/opscode-cookbooks/git",
+      "ref": "fe29ab362669ecf70c61c4ed73e01adf7e955c8d"
+    },
+    "windows": {
+      "locked_version": "1.10.0",
+      "git": "git://github.com/opscode-cookbooks/windows",
+      "ref": "84a0f4ecb1f983ab682045786734e2c3cc4b6c45"
     }
   }
 }
