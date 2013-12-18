@@ -5,13 +5,13 @@
 metadata
 
 # rcbops/chef-cookbooks tagged versions
-cookbook "mysql-openstack", git: "git://github.com/rcbops-cookbooks/mysql-openstack", branch: "v4.2.1rc"
-cookbook "dsh", git: "git://github.com/rcbops-cookbooks/dsh", branch: "v4.2.1rc"
-cookbook "osops-utils", git: "git://github.com/rcbops-cookbooks/osops-utils", branch: "v4.2.1rc"
-cookbook "sysctl", git: "git://github.com/rcbops-cookbooks/sysctl", branch: "v4.2.1rc"
-cookbook "memcached-openstack", git: "git://github.com/rcbops-cookbooks/memcached-openstack", branch: "v4.2.1rc"
-cookbook "keystone", git: "git://github.com/rcbops-cookbooks/keystone", branch: "v4.2.1rc"
-cookbook "keepalived", git: "git://github.com/rcbops-cookbooks/keepalived", branch: "v4.2.1rc"
+cookbook "mysql-openstack", git: "git://github.com/rcbops-cookbooks/mysql-openstack", branch: "v4.2.1"
+cookbook "dsh", git: "git://github.com/rcbops-cookbooks/dsh", branch: "v4.2.1"
+cookbook "osops-utils", git: "git://github.com/rcbops-cookbooks/osops-utils", branch: "v4.2.1"
+cookbook "sysctl", git: "git://github.com/rcbops-cookbooks/sysctl", branch: "v4.2.1"
+cookbook "memcached-openstack", git: "git://github.com/rcbops-cookbooks/memcached-openstack", branch: "v4.2.1"
+cookbook "keystone", git: "git://github.com/rcbops-cookbooks/keystone", branch: "v4.2.1"
+cookbook "keepalived", git: "git://github.com/rcbops-cookbooks/keepalived", branch: "v4.2.1"
 
 # rcbops/chef-cookbooks upstream versions
 cookbook "apache2", git: "git://github.com/opscode-cookbooks/apache2", branch: "ec9b063"

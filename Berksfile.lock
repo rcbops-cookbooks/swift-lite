@@ -4,39 +4,39 @@
       "path": "."
     },
     "mysql-openstack": {
-      "locked_version": "4.2.0",
+      "locked_version": "4.2.1",
       "git": "git://github.com/rcbops-cookbooks/mysql-openstack",
-      "ref": "c97acf1b278eaa34ae716e3368d8b48b881910c7"
+      "ref": "267dd94b1497661017452ad5c3a1fb386e3c3dce"
     },
     "dsh": {
-      "locked_version": "4.2.0",
+      "locked_version": "4.2.1",
       "git": "git://github.com/rcbops-cookbooks/dsh",
-      "ref": "4456b884c328152e566efaa53c900a00032da4c9"
+      "ref": "d10b351ea5102c5a0a48bf803a0b95f97f8176b2"
     },
     "osops-utils": {
-      "locked_version": "4.2.0",
+      "locked_version": "4.2.1",
       "git": "git://github.com/rcbops-cookbooks/osops-utils",
-      "ref": "af1d8d190c697c5f31b7eb95c889ce073d495c2b"
+      "ref": "dc9f02f7ea02ac025f7b799aee988b45c62cc5c7"
     },
     "sysctl": {
-      "locked_version": "4.2.0",
+      "locked_version": "4.2.1",
       "git": "git://github.com/rcbops-cookbooks/sysctl",
-      "ref": "015725d5f974ef859f85181928452feacc185c98"
+      "ref": "8e2b5dfb216d590d8ad1667124d85df432b8e1c4"
     },
     "memcached-openstack": {
-      "locked_version": "4.2.0",
+      "locked_version": "4.2.1",
       "git": "git://github.com/rcbops-cookbooks/memcached-openstack",
-      "ref": "9932ad9ed4664383bf2f15bab3e349aa420b0f74"
+      "ref": "2d2f525eac83144d0a7cb38a77a3f075f48b02c2"
     },
     "keystone": {
-      "locked_version": "4.2.0",
+      "locked_version": "4.2.1",
       "git": "git://github.com/rcbops-cookbooks/keystone",
-      "ref": "250e4d611fd48259721739f457a21e4151d42069"
+      "ref": "efa4b74aad9facdf548e8023ce50b3afaa7d4288"
     },
     "keepalived": {
       "locked_version": "4.2.1",
       "git": "git://github.com/rcbops-cookbooks/keepalived",
-      "ref": "4e1c279cee0e712997a6fe24f7be9f71e0e3df58"
+      "ref": "10d05ac64c7c43d114328d70bfa9492c0468a933"
     },
     "apache2": {
       "locked_version": "1.8.5",
