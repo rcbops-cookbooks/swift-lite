@@ -3,7 +3,7 @@ maintainer        "Rackspace US, Inc."
 license           "Apache 2.0"
 description       "Install and configure Openstack Swift with less crazy"
 long_description  IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version           "4.1.4"
+version           "4.1.5"
 recipe            "swift-lite::account-server", "Installs the swift account server"
 recipe            "swift-lite::object-server", "Installs the swift object server"
 recipe            "swift-lite::proxy-server", "Installs the swift proxy server"
