@@ -190,7 +190,7 @@ template "/etc/swift/proxy-server.conf" do
   group "swift"
   mode "0600"
   variables("config_options" => default_options.merge(
-      node["swift"]["account"]["config"] || {}) { |k, x, y| x.merge(y) })
+      node["swift"]["proxy"]["config"] || {}) { |k, x, y| x.merge(y) })
 
   notifies :restart, "service[swift-proxy]", :immediately
 end
